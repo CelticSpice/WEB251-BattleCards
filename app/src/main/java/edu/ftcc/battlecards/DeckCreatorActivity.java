@@ -25,6 +25,9 @@ public class DeckCreatorActivity extends AppCompatActivity {
 
         TextView goldTxt = (TextView) findViewById(R.id.goldAmountTxt);
         goldTxt.setText(String.valueOf(humanPlayer.getGold()));
+
+        TextView view = (TextView) findViewById(R.id.cardNameTxt);
+        view.setText("Goblin");
     }
 
     /**
