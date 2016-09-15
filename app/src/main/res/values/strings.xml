@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Battle Cards</string>
+    <string name="cardsToBuyTxt">Cards Available</string>
+    <string name="cardsBoughtTxt">Cards Bought</string>
+    <string name="numberCardsBoughtDescripTxt">Bought:</string>
+    <string name="numberCardsBoughtTxtInitial">0/15</string>
+    <string name="goldAmountDescript">Gold:</string>
+</resources>
