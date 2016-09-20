@@ -23,9 +23,9 @@ public class Deck {
     }
 
     /**
-     The push method adds a card to the top of the deck
+     The push method adds a CardView to the top of the deck
 
-     @param card The card to add to the top of the deck
+     @param card The CardView to add to the top of the deck
      */
 
     public void push(Card card) {
@@ -33,7 +33,7 @@ public class Deck {
     }
 
     /**
-     The pop method removes and returns the card at the top of
+     The pop method removes and returns the CardView at the top of
      the deck
      */
 
@@ -42,9 +42,9 @@ public class Deck {
     }
 
     /**
-     The remove method removes the specifed card from the deck
+     The remove method removes the specifed CardView from the deck
 
-     @param cardToRemove The card to remove
+     @param cardToRemove The CardView to remove
      */
 
     public void remove(Card cardToRemove) {
@@ -83,14 +83,14 @@ public class Deck {
                 simply switch places in an iteration
             */
 
-            // Shuffling out first card in deck with random card from deck
+            // Shuffling out first CardView in deck with random CardView from deck
             toShuffleIndex = rng.nextInt(shuffledCards.length);
             toShuffle = shuffledCards[toShuffleIndex];
             tmpCard = shuffledCards[0];
             shuffledCards[0] = toShuffle;
             shuffledCards[toShuffleIndex] = tmpCard;
 
-            // Shuffling out last card in deck with random card from deck
+            // Shuffling out last CardView in deck with random CardView from deck
             toShuffleIndex = rng.nextInt(shuffledCards.length);
             toShuffle = shuffledCards[toShuffleIndex];
             tmpCard = shuffledCards[shuffledCards.length - 1];
