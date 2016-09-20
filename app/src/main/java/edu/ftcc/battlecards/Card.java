@@ -1,5 +1,5 @@
 /**
- This class represents a card in the game
+ This class represents a CardView in the game
 
  @author James Alves, Timothy Burns
  */
@@ -19,11 +19,11 @@ public class Card {
 
     /**
      Constructor
-     Defines the card's name, attack number, defense number, gold cost,
-     resource cost, and attack ability, if any. If the card shall have no attack
+     Defines the CardView's name, attack number, defense number, gold cost,
+     resource cost, and attack ability, if any. If the CardView shall have no attack
      ability, "None" should be passed
 
-     @param name The card's name
+     @param name The CardView's name
      @param attackNum The attack number
      @param defenseNum The defense number
      @param gCost The gold cost
@@ -45,7 +45,7 @@ public class Card {
     }
 
     /**
-     The activate method simulates the card being activated. It sets the
+     The activate method simulates the CardView being activated. It sets the
      active field to true
      */
 
@@ -54,7 +54,7 @@ public class Card {
     }
 
     /**
-     The beCast method simulates the card being cast. It sets the cast
+     The beCast method simulates the CardView being cast. It sets the cast
      field to true
      */
 
@@ -63,9 +63,9 @@ public class Card {
     }
 
     /**
-     The getActive method returns the active status of the card
+     The getActive method returns the active status of the CardView
 
-     @return Whether or not the card is active
+     @return Whether or not the CardView is active
      */
 
     public boolean getActive() {
@@ -73,9 +73,9 @@ public class Card {
     }
 
     /**
-     The getCast method returns whether or not the card has been cast.
+     The getCast method returns whether or not the CardView has been cast.
 
-     @return Whether the card has been cast
+     @return Whether the CardView has been cast
      */
 
     public boolean getCast() {
@@ -83,9 +83,9 @@ public class Card {
     }
 
     /**
-     The getCardName method returns the name of the card
+     The getCardName method returns the name of the CardView
 
-     @return The name of the card
+     @return The name of the CardView
      */
 
     public String getCardName() {
@@ -93,9 +93,9 @@ public class Card {
     }
 
     /**
-     The getAttackNumber method returns the card's attack number
+     The getAttackNumber method returns the CardView's attack number
 
-     @return The card's attack number
+     @return The CardView's attack number
      */
 
     public int getAttackNumber() {
@@ -103,9 +103,9 @@ public class Card {
     }
 
     /**
-     The getDefenseNumber method returns the card's defense number
+     The getDefenseNumber method returns the CardView's defense number
 
-     @return The card's defense number
+     @return The CardView's defense number
      */
 
     public int getDefenseNumber() {
@@ -113,9 +113,9 @@ public class Card {
     }
 
     /**
-     The setDefenseNumber method sets the card's defense number
+     The setDefenseNumber method sets the CardView's defense number
 
-     @param defense The card's defense number
+     @param defense The CardView's defense number
      */
 
     public void setDefenseNumber(int defense) {
@@ -123,9 +123,9 @@ public class Card {
     }
 
     /**
-     The getGoldCost method returns the card's gold cost
+     The getGoldCost method returns the CardView's gold cost
 
-     @return The card's gold cost
+     @return The CardView's gold cost
      */
 
     public int getGoldCost() {
@@ -135,7 +135,7 @@ public class Card {
     /**
      The getResourceCost method returns the cards resource cost
 
-     @return The card's resource cost
+     @return The CardView's resource cost
      */
 
     public int getResourceCost() {
@@ -143,9 +143,9 @@ public class Card {
     }
 
     /**
-     The getCombatAbility method returns the card's combat ability
+     The getCombatAbility method returns the CardView's combat ability
 
-     @return The card's combat ability
+     @return The CardView's combat ability
      */
 
     public String getCombatAbility() {

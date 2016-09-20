@@ -23,10 +23,10 @@ public class Player {
     }
 
     /**
-        The buyCard method purchases the specified card with the player's gold
-        and adds the card to the player's deck
+        The buyCard method purchases the specified CardView with the player's gold
+        and adds the CardView to the player's deck
 
-        @param cardToBuy The card to purchase
+        @param cardToBuy The CardView to purchase
     */
 
     public void buyCard(Card cardToBuy) {
@@ -35,9 +35,9 @@ public class Player {
     }
 
     /**
-        The sellCard method sells the specified card from the player's deck
+        The sellCard method sells the specified CardView from the player's deck
 
-        @param cardToSell The card to sell
+        @param cardToSell The CardView to sell
     */
 
     public void sellCard(Card cardToSell) {
@@ -46,10 +46,10 @@ public class Player {
     }
 
     /**
-        The draw method removes and returns the card from the top of the
+        The draw method removes and returns the CardView from the top of the
         player's deck
 
-        @return The card from the top of the player's deck
+        @return The CardView from the top of the player's deck
     */
 
     public Card draw() {
@@ -57,10 +57,10 @@ public class Player {
     }
 
     /**
-        The cast method simulates the player casting the card specified
+        The cast method simulates the player casting the CardView specified
         and updates the player's resources appropriately
 
-        @param cardToCast The card to cast
+        @param cardToCast The CardView to cast
     */
 
     public void cast(Card cardToCast) {

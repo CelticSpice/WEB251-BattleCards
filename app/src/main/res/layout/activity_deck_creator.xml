@@ -115,9 +115,9 @@
         <fragment
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="edu.ftcc.battlecards.card"
+            android:name="edu.ftcc.battlecards.CardView"
             android:id="@+id/cardFragment"
-            tools:layout="@layout/fragment_card" />
+            tools:layout="@layout/fragment_card_view" />
     </FrameLayout>
 
 </RelativeLayout>
