@@ -1,154 +1,132 @@
 /**
  This class represents a card in the game
-
+ 9/23/2016
+ WEB 251 0001 - Battle Cards (M5HW1)
  @author James Alves, Timothy Burns
  */
 
 package edu.ftcc.battlecards;
 
 public class Card {
-    /*
-        If there shall be no combat ability, "None" should be set in the
-        combatAbility field
-    */
-
     // Fields
-    private boolean active, cast;
-    private int attackNumber, defenseNumber, goldCost, resourceCost;
-    private String cardName, combatAbility;
+    private CardProperties properties;
 
     /**
      Constructor
-     Defines the card's name, attack number, defense number, gold cost,
-     resource cost, and attack ability, if any. If the card shall have no attack
-     ability, "None" should be passed
+     Accepts a CardProperties defining the Card's properties
 
-     @param name The card's name
-     @param attackNum The attack number
-     @param defenseNum The defense number
-     @param gCost The gold cost
-     @param rCost The resource cost
-     @param ability The combat ability, if any
+     @param props The Card's properties
      */
 
-    public Card(String name, int attackNum, int defenseNum,
-                int gCost, int rCost, String ability) {
-
-        cardName = name;
-        attackNumber = attackNum;
-        defenseNumber = defenseNum;
-        goldCost = gCost;
-        resourceCost = rCost;
-        combatAbility = ability;
-        active = false;
-        cast = false;
+    public Card(CardProperties props) {
+        properties = new CardProperties(props);
     }
 
     /**
-     The activate method simulates the card being activated. It sets the
-     active field to true
+     Copy Constructor
+
+     @param card The Card to make a copy of
+     */
+
+    public Card(Card card) {
+        properties = new CardProperties(card.properties);
+    }
+
+    /**
+     The activate method simulates the Card being activated. It sets the
+     active property to true
      */
 
     public void activate() {
-        active = true;
+        properties.active = true;
     }
 
     /**
-     The beCast method simulates the card being cast. It sets the cast
-     field to true
+     The getAttack method returns the Card's attack
+
+     @return The Card's attack
      */
 
-    public void beCast() {
-        cast = true;
+    public int getAttack() {
+        return properties.attack;
     }
 
     /**
-     The getActive method returns the active status of the card
+     The getCombatAbility method returns the Card's combat ability
 
-     @return Whether or not the card is active
+     @return The Card's combat ability
      */
 
-    public boolean getActive() {
-        return active;
+    public CombatAbility getCombatAbility() {
+        return properties.ability;
     }
 
     /**
-     The getCast method returns whether or not the card has been cast.
+     The getDefense method returns the Card's defense
 
-     @return Whether the card has been cast
+     @return The Card's defense
      */
 
-    public boolean getCast() {
-        return cast;
+    public int getDefense() {
+        return properties.defense;
     }
 
     /**
-     The getCardName method returns the name of the card
+     The getGoldCost method returns the Card's gold cost
+
+     @return The Card's gold cost
+     */
+
+    public int getGoldCost() {
+        return properties.goldCost;
+    }
+
+    /**
+     The getIfActive method returns the active status of the Card
+
+     @return Whether or not the Card is active
+     */
+
+    public boolean getIfActive() {
+        return properties.active;
+    }
+
+    /**
+        The getImage method returns the Integer pointing to
+        the Card's image
+
+        @return Integer pointing to the Card's image
+     */
+
+    public Integer getImage() { return properties.image; }
+
+    /**
+     The getName method returns the name of the Card
 
      @return The name of the card
      */
 
-    public String getCardName() {
-        return cardName;
+    public String getName() {
+        return properties.name;
     }
 
     /**
-     The getAttackNumber method returns the card's attack number
+     The getResourceCost method returns the Card's resource cost
 
-     @return The card's attack number
-     */
-
-    public int getAttackNumber() {
-        return attackNumber;
-    }
-
-    /**
-     The getDefenseNumber method returns the card's defense number
-
-     @return The card's defense number
-     */
-
-    public int getDefenseNumber() {
-        return defenseNumber;
-    }
-
-    /**
-     The setDefenseNumber method sets the card's defense number
-
-     @param defense The card's defense number
-     */
-
-    public void setDefenseNumber(int defense) {
-        defenseNumber = defense;
-    }
-
-    /**
-     The getGoldCost method returns the card's gold cost
-
-     @return The card's gold cost
-     */
-
-    public int getGoldCost() {
-        return goldCost;
-    }
-
-    /**
-     The getResourceCost method returns the card's resource cost
-
-     @return The card's resource cost
+     @return The Card's resource cost
      */
 
     public int getResourceCost() {
-        return resourceCost;
+        return properties.resourceCost;
     }
 
     /**
-     The getCombatAbility method returns the card's combat ability
+     The setDefense method sets the Card's defense
 
-     @return The card's combat ability
+     @param defenseNum The Card's defense
      */
 
-    public String getCombatAbility() {
-        return combatAbility;
+    public void setDefense(int defenseNum) {
+        properties.defense = defenseNum;
     }
 }

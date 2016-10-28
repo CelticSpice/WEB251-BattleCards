@@ -1,6 +1,7 @@
 /**
- This class represents a deck of cards
-
+ This class represents a deck of Cards
+ 9/23/2016
+ WEB 251 0001 - Battle Cards (M5HW1)
  @author James Alves, Timothy Burns
  */
 
@@ -23,17 +24,32 @@ public class Deck {
     }
 
     /**
-     The push method adds a card to the top of the deck
+        The getCardNames method returns the names of every card in the Deck
 
-     @param card The card to add to the top of the deck
+        @return names The name of every card in the deck
      */
 
-    public void push(Card card) {
-        cards.push(card);
+    public String[] getCardNames() {
+        ArrayDeque<Card> deck = new ArrayDeque<>(cards);
+        String[] names = new String[deck.size()];
+        for (int i = 0; i < names.length; i++)
+            names[i] = deck.pop().getName();
+        return names;
     }
 
     /**
-     The pop method removes and returns the card at the top of
+     The getNumCards method returns the number of Cards currently
+     in the deck
+
+     @return The number of Cards currently in the deck
+     */
+
+    public int getNumCards() {
+        return cards.size();
+    }
+
+    /**
+     The pop method removes and returns the Card at the top of
      the deck
      */
 
@@ -42,63 +58,62 @@ public class Deck {
     }
 
     /**
-     The remove method removes the specifed card from the deck
+     The push method adds a Card to the top of the deck
 
-     @param cardToRemove The card to remove
+     @param card The Card to add to the top of the deck
      */
 
-    public void remove(Card cardToRemove) {
-        cards.remove(cardToRemove);
+    public void push(Card card) {
+        cards.push(card);
     }
 
     /**
-     The getNumCards method returns the number of cards currently
-     in the deck
+     The remove method removes the specified Card from the deck
 
-     @return The number of cards currently in the deck
+     @param toRemove The Card to remove
      */
 
-    public int getNumCards() {
-        return cards.size();
+    public void remove(Card toRemove) {
+        cards.remove(toRemove);
     }
 
     /**
-     The shuffle method shuffles the cards in the deck
+     The shuffle method shuffles the Cards in the deck
      */
 
     public void shuffle() {
         Random rng = new Random();
         Card[] shuffledCards = (Card[]) cards.toArray();
 
-        // Shuffle cards
+        // Shuffle Cards
         for (int i = 0; i < shuffledCards.length / 2; i++) {
-            Card toShuffle, tmpCard;
+            Card toShuffle, tmp;
             int toShuffleIndex;
 
             /*
-                We are shuffling out the first and last cards with random
-                cards chosen from somewhere in the deck. It is possible
-                that no cards will be shuffled in an iteration, and
-                it is also possible that the first and last cards will
+                We are shuffling out the first and last Cards with random
+                Cards chosen from somewhere in the deck. It is possible
+                that no Cards will be shuffled in an iteration, and
+                it is also possible that the first and last Cards will
                 simply switch places in an iteration
             */
 
-            // Shuffling out first card in deck with random card from deck
+            // Shuffling out first Card in deck with random Card from deck
             toShuffleIndex = rng.nextInt(shuffledCards.length);
             toShuffle = shuffledCards[toShuffleIndex];
-            tmpCard = shuffledCards[0];
+            tmp = shuffledCards[0];
             shuffledCards[0] = toShuffle;
-            shuffledCards[toShuffleIndex] = tmpCard;
+            shuffledCards[toShuffleIndex] = tmp;
 
-            // Shuffling out last card in deck with random card from deck
+            // Shuffling out last Card in deck with random Card from deck
             toShuffleIndex = rng.nextInt(shuffledCards.length);
             toShuffle = shuffledCards[toShuffleIndex];
-            tmpCard = shuffledCards[shuffledCards.length - 1];
+            tmp = shuffledCards[shuffledCards.length - 1];
             shuffledCards[shuffledCards.length - 1] = toShuffle;
-            shuffledCards[toShuffleIndex] = tmpCard;
+            shuffledCards[toShuffleIndex] = tmp;
         }
 
-        // Remake the deck of cards as the new shuffled deck
+        // Remake the deck of Cards as the new shuffled deck
         cards = new ArrayDeque<>(Arrays.asList(shuffledCards));
     }
 }
