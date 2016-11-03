@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Game {
     // Fields
+    private static Game game;
     private GameCards cards;
     private Player humanPlayer, computerPlayer;
 
@@ -15,9 +16,21 @@ public class Game {
         Constructor
      */
 
-    public Game() {
+    private Game() {
         prepareGameCards();
         humanPlayer = new Player();
+    }
+
+    /**
+        The getInstance method returns an instance of the Game
+
+        @return The instance of the Game
+     */
+
+    public static Game getInstance() {
+        if (game == null)
+            game = new Game();
+        return game;
     }
 
     /**

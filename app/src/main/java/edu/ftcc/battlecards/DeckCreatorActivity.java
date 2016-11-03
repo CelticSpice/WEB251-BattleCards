@@ -27,7 +27,7 @@ public class DeckCreatorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_deck_creator);
 
         // Initialization
-        game = new Game();
+        game = Game.getInstance();
         toBuyList = (ListView) findViewById(R.id.listToBuy);
         boughtList = (ListView) findViewById(R.id.listBought);
         registerListListeners();
@@ -122,7 +122,7 @@ public class DeckCreatorActivity extends AppCompatActivity {
 
             // Open activity to display Card details
             Intent intent = new Intent(DeckCreatorActivity.this, CardDetailActivity.class);
-            intent.putExtra(CardDetailActivity.CARD_INDEX, game);
+            intent.putExtra(CardDetailActivity.CARD_INDEX, cardIndex);
             startActivity(intent);
 
             // I'm not sure what this is, but the abstract method onItemLongClick()

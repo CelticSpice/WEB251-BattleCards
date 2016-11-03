@@ -23,11 +23,14 @@ public class CardDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_detail);
 
+        // Get game
+        game = Game.getInstance();
+
         // Get extra
         int cardIndex = (Integer) getIntent().getExtras().get(CARD_INDEX);
 
         // Get the selected Card
-        Card card = GameCards.getCard(cardIndex);
+        Card card = game.getCards().getCard(cardIndex);
 
         // Get controls to populate
         ImageView imgCardImage = (ImageView) findViewById(R.id.imgCardImage);
