@@ -1,178 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="fill_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Your Hand"
-            android:id="@+id/handText"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="300dp"
+        android:layout_height="175dp"
+        android:layout_gravity="top"
+        android:weightSum="1">
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="225dp"
-            android:baselineAligned="false"
-            android:layout_weight="0.47"
-            android:weightSum="1"
-            android:id="@+id/humanBattlefieldLayout"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true">
+            android:layout_width="160dp"
+            android:layout_height="120dp">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/textViewPlayerDeck"
+                android:autoText="false"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/textViewOpponentDeck"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="55dp"
+            android:id="@+id/textViewActionRequest" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="55dp">
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonAction" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_gravity="bottom">
+
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical">
 
             <fragment
-                android:layout_width="95dp"
-                android:layout_height="match_parent"
-                android:name="edu.ftcc.battlecards.CardView"
-                android:id="@+id/fragment3"
-                android:layout_gravity="center_vertical" />
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:name="edu.ftcc.battlecards.CardFragment"
+                android:id="@+id/fragmentHand1"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical">
 
             <fragment
-                android:layout_width="95dp"
-                android:layout_height="match_parent"
-                android:name="edu.ftcc.battlecards.CardView"
-                android:id="@+id/fragment4"
-                android:layout_gravity="center_vertical" />
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:name="edu.ftcc.battlecards.CardFragment"
+                android:id="@+id/fragmentHand2"
+                android:layout_gravity="center" />
+        </FrameLayout>
 
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical">
+
+            <fragment
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:name="edu.ftcc.battlecards.CardFragment"
+                android:id="@+id/fragmentHand3"
+                android:layout_gravity="center" />
+        </FrameLayout>
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_row="0"
+        android:layout_column="36">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="240dp"
+            android:layout_height="192dp"
+            android:layout_gravity="right"
+            android:weightSum="1">
+
+            <FrameLayout
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:layout_gravity="top">
+
+                <fragment
+                    android:layout_width="120dp"
+                    android:layout_height="180dp"
+                    android:name="edu.ftcc.battlecards.CardFragment"
+                    android:id="@+id/fragmentOpponentField1"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:layout_gravity="top">
+
+                <fragment
+                    android:layout_width="120dp"
+                    android:layout_height="180dp"
+                    android:name="edu.ftcc.battlecards.CardFragment"
+                    android:id="@+id/fragmentOpponentField2"/>
+            </FrameLayout>
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="225dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignLeft="@+id/humanBattlefieldLayout"
-            android:layout_alignStart="@+id/humanBattlefieldLayout"
-            android:id="@+id/linearLayout">
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:weightSum="1">
 
-            <fragment
-                android:layout_width="95dp"
-                android:layout_height="match_parent"
-                android:name="edu.ftcc.battlecards.CardView"
-                android:id="@+id/fragment5"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/fragment6"
-                android:layout_toStartOf="@+id/fragment6" />
+            <FrameLayout
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:layout_gravity="bottom">
 
-            <fragment
-                android:layout_width="95dp"
-                android:layout_height="match_parent"
-                android:name="edu.ftcc.battlecards.CardView"
-                android:id="@+id/fragment6"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                <fragment
+                    android:layout_width="120dp"
+                    android:layout_height="180dp"
+                    android:name="edu.ftcc.battlecards.CardFragment"
+                    android:id="@+id/fragmentPlayerField1"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:layout_gravity="bottom">
+
+                <fragment
+                    android:layout_width="120dp"
+                    android:layout_height="180dp"
+                    android:name="edu.ftcc.battlecards.CardFragment"
+                    android:id="@+id/fragmentPlayerField2"/>
+            </FrameLayout>
         </LinearLayout>
+    </LinearLayout>
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/handList"
-            android:layout_weight="1"
-            android:layout_toLeftOf="@+id/humanBattlefieldLayout"
-            android:layout_toStartOf="@+id/humanBattlefieldLayout"
-            android:layout_below="@+id/handText"
-            android:layout_alignBottom="@+id/linearLayout" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Resources:"
-            android:id="@+id/resourceDescripText"
-            android:layout_below="@+id/linearLayout"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Deck Size: "
-            android:id="@+id/deckDescripText"
-            android:layout_below="@+id/resourceDescripText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Opponent&apos;s Deck:"
-            android:id="@+id/opponentDeckDescripText"
-            android:layout_below="@+id/deckDescripText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="0"
-            android:id="@+id/textView4"
-            android:layout_below="@+id/handList"
-            android:layout_alignLeft="@+id/deckText"
-            android:layout_alignStart="@+id/deckText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="0"
-            android:id="@+id/deckText"
-            android:layout_above="@+id/opponentDeckText"
-            android:layout_toLeftOf="@+id/humanBattlefieldLayout"
-            android:layout_toStartOf="@+id/humanBattlefieldLayout" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="0"
-            android:id="@+id/opponentDeckText"
-            android:layout_alignTop="@+id/opponentDeckDescripText"
-            android:layout_toRightOf="@+id/opponentDeckDescripText"
-            android:layout_toLeftOf="@+id/humanBattlefieldLayout"
-            android:layout_toStartOf="@+id/humanBattlefieldLayout" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="End Turn"
-            android:id="@+id/endTurnButton"
-            android:layout_alignBottom="@+id/humanBattlefieldLayout"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Attack!"
-            android:id="@+id/attackButton"
-            android:layout_centerVertical="true"
-            android:layout_alignRight="@+id/humanBattlefieldLayout"
-            android:layout_alignEnd="@+id/humanBattlefieldLayout" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Play"
-            android:id="@+id/playButton"
-            android:layout_below="@+id/opponentDeckDescripText"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+</GridLayout>
