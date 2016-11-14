@@ -4,7 +4,6 @@
     <string name="txtToBuy">Cards Available</string>
     <string name="txtBought">Cards Bought</string>
     <string name="txtCardsBoughtDescrip">Bought:</string>
-    <string name="txtCardsBoughtInitial">0/15</string>
     <string name="txtGoldAmountDescrip">Gold:</string>
     <string name="btnStart">Start</string>
 

@@ -30,7 +30,7 @@ public class CardDetailActivity extends AppCompatActivity {
         int cardIndex = (Integer) getIntent().getExtras().get(CARD_INDEX);
 
         // Get the selected Card
-        Card card = game.getCards().getCard(cardIndex);
+        Card card = game.getMasterDeck().getCardAt(cardIndex);
 
         // Get controls to populate
         ImageView imgCardImage = (ImageView) findViewById(R.id.imgCardImage);

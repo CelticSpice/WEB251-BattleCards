@@ -1,102 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="horizontal"
+    android:padding="16dp"
     tools:context="edu.ftcc.battlecards.DeckCreatorActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txtToBuy"
-        android:id="@+id/txtToBuy"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="15dp"
-        android:textSize="12sp"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txtBought"
-        android:id="@+id/txtBought"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="15dp"
-        android:textSize="12sp"
-        />
-
-    <ListView
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listToBuy"
-        android:layout_below="@+id/txtToBuy"
-        android:choiceMode="singleChoice"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="215dp"
-        android:layout_marginBottom="125dp"/>
+        android:orientation="vertical"
+        android:layout_weight="2">
 
-    <ListView
-        android:layout_width="match_parent"
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txtToBuy"
+            android:id="@+id/txtToBuy"
+            android:layout_marginBottom="15dp"
+            android:textSize="12sp"/>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listToBuy"
+            android:choiceMode="singleChoice"
+            android:layout_marginBottom="15dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_below="@+id/txtBought"
-        android:choiceMode="none"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="215dp"
-        android:layout_marginBottom="125dp"
-        android:id="@+id/listBought" />
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
-    <TextView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txtCardsBoughtDescrip"
+            android:id="@+id/txtNumCardsBoughtDescrip"
+            android:textSize="24sp"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtNumCardsBought"
+            android:textSize="24sp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txtGoldAmountDescrip"
+            android:id="@+id/txtGoldAmountDescrip"
+            android:layout_marginTop="30dp"
+            android:textSize="24sp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtGoldAmount"
+            android:layout_marginTop="5dp"
+            android:textSize="24sp"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btnStart"
+            android:textSize="26sp"
+            android:enabled="false"
+            android:layout_gravity="bottom"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txtCardsBoughtDescrip"
-        android:id="@+id/txtNumCardsBoughtDescrip"
-        android:layout_alignParentTop="false"
-        android:layout_centerHorizontal="true"
-        android:textSize="24dp"
-        android:layout_marginTop="50dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="2">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtNumCardsBought"
-        android:layout_centerHorizontal="true"
-        android:textSize="24dp"
-        android:layout_below="@+id/txtNumCardsBoughtDescrip"
-        android:text="@string/txtCardsBoughtInitial"
-        android:layout_marginTop="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txtBought"
+            android:id="@+id/txtBought"
+            android:layout_marginBottom="15dp"
+            android:textSize="12sp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txtGoldAmountDescrip"
-        android:id="@+id/txtGoldAmountDescrip"
-        android:layout_below="@+id/txtNumCardsBought"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:textSize="24dp"/>
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:choiceMode="singleChoice"
+            android:id="@+id/listBought" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtGoldAmount"
-        android:layout_below="@+id/txtGoldAmountDescrip"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:textSize="24dp"/>
+    </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnStart"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="26dp"
-        android:enabled="false"/>
-
-</RelativeLayout>
+</LinearLayout>

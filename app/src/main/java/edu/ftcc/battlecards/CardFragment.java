@@ -1,3 +1,7 @@
+/**
+    This is a fragment for a card's display
+ */
+
 package edu.ftcc.battlecards;
 
 import android.os.Bundle;
