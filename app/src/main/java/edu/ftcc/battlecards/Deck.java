@@ -7,34 +7,92 @@
 
 package edu.ftcc.battlecards;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.Date;
 import java.util.Random;
 
 public class Deck {
     // Fields
-    private ArrayDeque<Card> cards;
+    private ArrayList<Card> cards;
 
     /**
      Constructor
      */
 
     public Deck() {
-        cards = new ArrayDeque<>();
+        cards = new ArrayList<>();
     }
 
     /**
-        The getCardNames method returns the names of every card in the Deck
+     The getCard method returns the card with the specified name
 
-        @return names The name of every card in the deck
+     @param name The name of the card to get
+     @return card The card with the specified name; else, null
+     */
+
+    public Card getCard(String name) {
+        Card card = null;
+        for (Card c : cards)
+            if (c.getName().equalsIgnoreCase(name)) {
+                card = c;
+                break;
+            }
+        return card;
+    }
+
+    /**
+     The getCardAt method returns the card at the specified index
+
+     @param index Index of card to get
+     @return The card specified by the index
+     */
+
+    public Card getCardAt(int index) {
+        return cards.get(index);
+    }
+
+    /**
+        The getCardIndex method returns the first index of the card with the specified name; else,
+        -1
+
+        @param name The name of the card to get the first index of
+        @return index The index of the named card; else, -1
+     */
+
+    public int getCardIndex(String name) {
+        int index = -1;
+        for (int i = 0; i < cards.size() && index == -1; i++)
+            if (cards.get(i).getName().equalsIgnoreCase(name))
+                index = i;
+        return index;
+    }
+
+    /**
+        The getCardNames method returns the name of every card in the deck,
+        alphabetically sorted
+
+        @return names The name of every card in the deck in alphabetical order
      */
 
     public String[] getCardNames() {
-        ArrayDeque<Card> deck = new ArrayDeque<>(cards);
-        String[] names = new String[deck.size()];
+        String[] names = new String[cards.size()];
         for (int i = 0; i < names.length; i++)
-            names[i] = deck.pop().getName();
+            names[i] = cards.get(i).getName();
+        Arrays.sort(names);
         return names;
+    }
+
+    /**
+        The toArray method returns the deck as an array
+
+        @return The deck as an array
+     */
+
+    public Card[] toArray() {
+        return cards.toArray(new Card[cards.size()]);
     }
 
     /**
@@ -54,7 +112,7 @@ public class Deck {
      */
 
     public Card pop() {
-        return cards.pop();
+        return cards.remove(cards.size() - 1);
     }
 
     /**
@@ -64,7 +122,7 @@ public class Deck {
      */
 
     public void push(Card card) {
-        cards.push(card);
+        cards.add(card);
     }
 
     /**
@@ -75,6 +133,15 @@ public class Deck {
 
     public void remove(Card toRemove) {
         cards.remove(toRemove);
+    }
+
+    /**
+        The removeAt method removes the card at the specified position
+        in the deck
+     */
+
+    public void removeAt(int position) {
+        cards.remove(position);
     }
 
     /**
@@ -114,6 +181,7 @@ public class Deck {
         }
 
         // Remake the deck of Cards as the new shuffled deck
-        cards = new ArrayDeque<>(Arrays.asList(shuffledCards));
+        cards.clear();
+        cards.addAll(Arrays.asList(shuffledCards));
     }
 }

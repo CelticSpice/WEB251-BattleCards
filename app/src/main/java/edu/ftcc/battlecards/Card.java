@@ -9,27 +9,52 @@ package edu.ftcc.battlecards;
 
 public class Card {
     // Fields
-    private CardProperties properties;
+    private boolean active;
+    private CombatAbility ability;
+    private int attack, defense, goldCost, resourceCost;
+    private Integer image;
+    private String name;
 
     /**
      Constructor
-     Accepts a CardProperties defining the Card's properties
+     Accepts the card's properties
 
-     @param props The Card's properties
+     @param atk The card's attack
+     @param def The card's defense
+     @param abil The card's ability
+     @param gCost The card's gold cost
+     @param rCost The card's resource cost
+     @param img Integer resource for card's image
+     @param n The card's name
      */
 
-    public Card(CardProperties props) {
-        properties = new CardProperties(props);
+    public Card(int atk, int def, CombatAbility abil, int gCost,
+                int rCost, Integer img, String n) {
+        attack = atk;
+        defense = def;
+        ability = abil;
+        goldCost = gCost;
+        resourceCost = rCost;
+        image = img;
+        name = n;
+        active = false;
     }
 
     /**
      Copy Constructor
 
-     @param card The Card to make a copy of
+     @param card The card to make a copy of
      */
 
     public Card(Card card) {
-        properties = new CardProperties(card.properties);
+        attack = card.attack;
+        defense = card.defense;
+        ability = card.ability;
+        goldCost = card.goldCost;
+        resourceCost = card.resourceCost;
+        image = card.image;
+        name = card.name;
+        active = card.active;
     }
 
     /**
@@ -38,7 +63,7 @@ public class Card {
      */
 
     public void activate() {
-        properties.active = true;
+        active = true;
     }
 
     /**
@@ -48,7 +73,7 @@ public class Card {
      */
 
     public int getAttack() {
-        return properties.attack;
+        return attack;
     }
 
     /**
@@ -58,7 +83,7 @@ public class Card {
      */
 
     public CombatAbility getCombatAbility() {
-        return properties.ability;
+        return ability;
     }
 
     /**
@@ -68,7 +93,7 @@ public class Card {
      */
 
     public int getDefense() {
-        return properties.defense;
+        return defense;
     }
 
     /**
@@ -78,7 +103,7 @@ public class Card {
      */
 
     public int getGoldCost() {
-        return properties.goldCost;
+        return goldCost;
     }
 
     /**
@@ -88,7 +113,7 @@ public class Card {
      */
 
     public boolean getIfActive() {
-        return properties.active;
+        return active;
     }
 
     /**
@@ -98,7 +123,7 @@ public class Card {
         @return Integer pointing to the Card's image
      */
 
-    public Integer getImage() { return properties.image; }
+    public Integer getImage() { return image; }
 
     /**
      The getName method returns the name of the Card
@@ -107,7 +132,7 @@ public class Card {
      */
 
     public String getName() {
-        return properties.name;
+        return name;
     }
 
     /**
@@ -117,7 +142,7 @@ public class Card {
      */
 
     public int getResourceCost() {
-        return properties.resourceCost;
+        return resourceCost;
     }
 
     /**
@@ -127,6 +152,6 @@ public class Card {
      */
 
     public void setDefense(int defenseNum) {
-        properties.defense = defenseNum;
+        defense = defenseNum;
     }
 }
