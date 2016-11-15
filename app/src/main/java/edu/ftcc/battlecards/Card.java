@@ -1,7 +1,6 @@
 /**
  This class represents a card in the game
- 9/23/2016
- WEB 251 0001 - Battle Cards (M5HW1)
+ WEB 251 0001 - Battle Cards
  @author James Alves, Timothy Burns
  */
 
@@ -9,8 +8,7 @@ package edu.ftcc.battlecards;
 
 public class Card {
     // Fields
-    private boolean active;
-    private CombatAbility ability;
+    private Ability ability;
     private int attack, defense, goldCost, resourceCost;
     private Integer image;
     private String name;
@@ -28,7 +26,7 @@ public class Card {
      @param n The card's name
      */
 
-    public Card(int atk, int def, CombatAbility abil, int gCost,
+    public Card(int atk, int def, Ability abil, int gCost,
                 int rCost, Integer img, String n) {
         attack = atk;
         defense = def;
@@ -37,7 +35,6 @@ public class Card {
         resourceCost = rCost;
         image = img;
         name = n;
-        active = false;
     }
 
     /**
@@ -54,22 +51,23 @@ public class Card {
         resourceCost = card.resourceCost;
         image = card.image;
         name = card.name;
-        active = card.active;
     }
 
     /**
-     The activate method simulates the Card being activated. It sets the
-     active property to true
+        The alterDefense method increases or decreases the card's defense
+        by an amount
+
+        @param value The value to increase or decrease the card's defense by
      */
 
-    public void activate() {
-        active = true;
+    public void alterDefense(int value) {
+        defense += value;
     }
 
     /**
-     The getAttack method returns the Card's attack
+     The getAttack method returns the card's attack
 
-     @return The Card's attack
+     @return The card's attack
      */
 
     public int getAttack() {
@@ -77,19 +75,19 @@ public class Card {
     }
 
     /**
-     The getCombatAbility method returns the Card's combat ability
+     The getAbility method returns the card's ability
 
-     @return The Card's combat ability
+     @return The card's ability
      */
 
-    public CombatAbility getCombatAbility() {
+    public Ability getAbility() {
         return ability;
     }
 
     /**
-     The getDefense method returns the Card's defense
+     The getDefense method returns the card's defense
 
-     @return The Card's defense
+     @return The card's defense
      */
 
     public int getDefense() {
@@ -97,9 +95,9 @@ public class Card {
     }
 
     /**
-     The getGoldCost method returns the Card's gold cost
+     The getGoldCost method returns the card's gold cost
 
-     @return The Card's gold cost
+     @return The card's gold cost
      */
 
     public int getGoldCost() {
@@ -107,26 +105,16 @@ public class Card {
     }
 
     /**
-     The getIfActive method returns the active status of the Card
+        The getImageResID method returns the Integer of the card's
+        resource ID of its image
 
-     @return Whether or not the Card is active
+        @return Integer resource for card's image
      */
 
-    public boolean getIfActive() {
-        return active;
-    }
+    public Integer getImageResID() { return image; }
 
     /**
-        The getImage method returns the Integer pointing to
-        the Card's image
-
-        @return Integer pointing to the Card's image
-     */
-
-    public Integer getImage() { return image; }
-
-    /**
-     The getName method returns the name of the Card
+     The getName method returns the name of the card
 
      @return The name of the card
      */
@@ -136,22 +124,12 @@ public class Card {
     }
 
     /**
-     The getResourceCost method returns the Card's resource cost
+     The getResourceCost method returns the card's resource cost
 
-     @return The Card's resource cost
+     @return The card's resource cost
      */
 
     public int getResourceCost() {
         return resourceCost;
-    }
-
-    /**
-     The setDefense method sets the Card's defense
-
-     @param defenseNum The Card's defense
-     */
-
-    public void setDefense(int defenseNum) {
-        defense = defenseNum;
     }
 }

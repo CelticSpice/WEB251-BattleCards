@@ -1,11 +1,12 @@
 /**
  This class represents a player in the game
- 9/23/2016
- WEB 251 0001 - Battle Cards (M5HW1)
+ WEB 251 0001 - Battle Cards
  @author James Alves, Timothy Burns
  */
 
 package edu.ftcc.battlecards;
+
+import java.util.Random;
 
 public class Player {
     // Fields
@@ -23,10 +24,41 @@ public class Player {
     }
 
     /**
-     The buyCard method purchases the specified Card with the Player's gold
-     and adds the Card to the Player's Deck
+        The autoBuy method automatically buys cards to add to the player's deck
+     */
 
-     @param toBuy The Card to purchase
+    public void autoBuy() {
+        // Get a reference to the game instance
+        Game game = Game.getInstance();
+
+        // For random
+        Random rng = new Random();
+
+        // Buy cards until max deck size is reached
+        int maxCards = deck.getMaxSize();
+        while (deck.getNumCards() != maxCards) {
+            Card[] buyable = game.getCardsAvailableToBuy(gold);
+            do {
+                // Buy card
+                buyCard(buyable[rng.nextInt(buyable.length)]);
+
+                // Refresh set of buyable cards
+                buyable = game.getCardsAvailableToBuy(gold);
+            } while (buyable.length != 0);
+
+            if (deck.getNumCards() != 15)
+            {
+                deck.clear();
+                gold = 100;
+            }
+        }
+    }
+
+    /**
+     The buyCard method purchases the specified card with the player's gold
+     and adds the card to the player's deck
+
+     @param toBuy The card to purchase
      */
 
     public void buyCard(Card toBuy) {
@@ -35,17 +67,61 @@ public class Player {
     }
 
     /**
-        The getDeck method returns a reference to the Player's deck
+     The cast method simulates the player casting the card specified
+     and updates the player's resources appropriately
 
-        @return A reference to the Player's deck
+     @param toCast The card to cast
      */
 
-    public Deck getDeck() { return deck; }
+    public void cast(Card toCast) {
+        resources -= toCast.getResourceCost();
+    }
 
     /**
-     The sellCard method sells the specified Card from the Player's Deck
+        The getCard method returns the first instance of a
+        card in the player's deck with the specified name
 
-     @param toSell The Card to sell
+        @param name The name of the card to get
+     */
+
+    public Card getCard(String name) {
+        return deck.getCard(name);
+    }
+
+    /**
+        The getCards method returns the cards in the player's deck as an array
+
+        @return An array of the player's cards
+     */
+
+    public Card[] getCards() {
+        return deck.toArray();
+    }
+
+    /**
+     The getCardNames method returns the name of every card in the player's deck
+
+     @return The name of every card in the player's deck
+     */
+
+    public String[] getCardNames() {
+        return deck.getCardNames();
+    }
+
+    /**
+        The getDeckSize method returns the number of cards currently in the player's deck
+
+        @return The number of cards in the player's deck
+     */
+
+    public int getDeckSize() {
+        return deck.getNumCards();
+    }
+
+    /**
+     The sellCard method sells the specified card from the player's deck
+
+     @param toSell The card to sell
      */
 
     public void sellCard(Card toSell) {
@@ -54,10 +130,18 @@ public class Player {
     }
 
     /**
-     The draw method removes and returns the Card from the top of the
-     Player's Deck
+        The shuffleDeck method shuffles the player's deck
+     */
 
-     @return The Card from the top of the Player's Deck
+    public void shuffleDeck() {
+        deck.shuffle();
+    }
+
+    /**
+     The draw method removes and returns the card from the top of the
+     player's deck
+
+     @return The card from the top of the player's deck
      */
 
     public Card draw() {
@@ -65,19 +149,8 @@ public class Player {
     }
 
     /**
-     The cast method simulates the Player casting the Card specified
-     and updates the Player's resources appropriately
-
-     @param toCast The Card to cast
-     */
-
-    public void cast(Card toCast) {
-        resources -= toCast.getResourceCost();
-    }
-
-    /**
      The replenishResources method adds the specified number of
-     resources to the Player's current resources
+     resources to the player's current resource pool
 
      @param toReplenish The number of resources to replenish
      */
@@ -87,12 +160,22 @@ public class Player {
     }
 
     /**
-     The getGold method returns the current amount of the gold that the Player has
+     The getGold method returns the current amount of gold that the player has
 
-     @return The current amount of gold that the Player has
+     @return The current amount of gold that the player has
      */
 
     public int getGold() {
         return gold;
+    }
+
+    /**
+        The getResources method returns the current amount of resources that the player has
+
+        @return The current amount of resources that the player has
+     */
+
+    public int getResources() {
+        return resources;
     }
 }

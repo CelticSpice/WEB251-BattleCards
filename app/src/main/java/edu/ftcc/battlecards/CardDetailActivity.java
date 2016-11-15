@@ -16,21 +16,19 @@ public class CardDetailActivity extends AppCompatActivity {
     // Fields
     public static final String CARD_INDEX = "cardIndex";
 
-    private Game game;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_detail);
 
-        // Get game
-        game = Game.getInstance();
+        // Get game instance
+        Game game = Game.getInstance();
 
         // Get extra
         int cardIndex = (Integer) getIntent().getExtras().get(CARD_INDEX);
 
         // Get the selected Card
-        Card card = game.getMasterDeck().getCardAt(cardIndex);
+        Card card = game.getCardAt(cardIndex);
 
         // Get controls to populate
         ImageView imgCardImage = (ImageView) findViewById(R.id.imgCardImage);
@@ -42,10 +40,10 @@ public class CardDetailActivity extends AppCompatActivity {
         TextView txtAttack = (TextView) findViewById(R.id.txtAttack);
 
         // Populate controls with appropriate data
-        imgCardImage.setImageResource(card.getImage());
+        imgCardImage.setImageResource(card.getImageResID());
         txtName.setText(card.getName());
         txtDefense.setText(String.valueOf(card.getDefense()));
-        txtAbility.setText(card.getCombatAbility().toString());
+        txtAbility.setText(card.getAbility().toString());
         txtResource.setText(String.valueOf(card.getResourceCost()));
         txtGold.setText(String.valueOf(card.getGoldCost()));
         txtAttack.setText(String.valueOf(card.getAttack()));
