@@ -9,6 +9,7 @@ package edu.ftcc.battlecards;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,14 @@ public class CardDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_detail);
 
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        getWindow().setLayout((int) (width * .8), (int) (height * .6));
+
         // Get game instance
         Game game = Game.getInstance();
 
@@ -31,7 +40,7 @@ public class CardDetailActivity extends AppCompatActivity {
         Card card = game.getCardAt(cardIndex);
 
         // Get controls to populate
-        ImageView imgCardImage = (ImageView) findViewById(R.id.imgCardImage);
+        ImageView imgCardImage = (ImageView) findViewById(R.id.imgImage);
         TextView txtName = (TextView) findViewById(R.id.txtName);
         TextView txtDefense = (TextView) findViewById(R.id.txtDefense);
         TextView txtAbility = (TextView) findViewById(R.id.txtAbility);

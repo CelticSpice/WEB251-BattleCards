@@ -7,9 +7,9 @@
     <string name="txtGoldAmountDescrip">Gold:</string>
     <string name="btnStart">Start</string>
 
-    <string name="txtAttackDescrip">Attack:</string>
-    <string name="txtDefenseDescrip">Defense:</string>
-    <string name="txtAbilityDescrip">Ability:</string>
-    <string name="txtResourceDescrip">Res:</string>
-    <string name="txtGoldDescrip">:Gold</string>
+    <string name="txtAttackDescrip">Atk:</string>
+    <string name="txtDefenseDescrip">Def:</string>
+    <string name="txtAbilityDescrip">Abil:</string>
+    <string name="txtResourceDescrip">R:</string>
+    <string name="txtGoldDescrip">G:</string>
 </resources>

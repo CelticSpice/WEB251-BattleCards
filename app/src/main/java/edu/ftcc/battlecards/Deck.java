@@ -166,7 +166,7 @@ public class Deck {
 
     public void shuffle() {
         Random rng = new Random();
-        Card[] shuffledCards = (Card[]) cards.toArray();
+        Card[] shuffledCards = cards.toArray(new Card[cards.size()]);
 
         // Shuffle cards
         for (int i = 0; i < shuffledCards.length / 2; i++) {

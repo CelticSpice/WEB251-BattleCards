@@ -19,8 +19,6 @@ import android.widget.TextView;
 
 public class DeckCreatorActivity extends AppCompatActivity {
     // Fields
-    private final int MAX_CARDS = 15;
-
     private Game game;
     private Player player;
     private Button btnStart;
@@ -39,6 +37,7 @@ public class DeckCreatorActivity extends AppCompatActivity {
         toBuyList = (ListView) findViewById(R.id.listToBuy);
         boughtList = (ListView) findViewById(R.id.listBought);
         registerListListeners();
+        registerButtonListener();
         setCardsToBuy();
 
         // Display initial amount of cards bought
@@ -99,6 +98,27 @@ public class DeckCreatorActivity extends AppCompatActivity {
     }
 
     /**
+        The registerButtonListener method registers a listener to the button
+     */
+
+    private void registerButtonListener() {
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Computer player builds its deck
+                game.getComputerPlayer().autoBuy();
+
+                // Both players' decks are shuffled
+                player.shuffleDeck();
+                game.getComputerPlayer().shuffleDeck();
+
+                // Start game
+                startActivity(new Intent(DeckCreatorActivity.this, BattlefieldActivity.class));
+            }
+        });
+    }
+
+    /**
      The registerListListeners method registers listeners to the lists
      */
 
@@ -144,6 +164,7 @@ public class DeckCreatorActivity extends AppCompatActivity {
             txtGold.setText(String.valueOf(player.getGold()));
 
             // Check if max number of cards bought
+            final int MAX_CARDS = 15;
             if (numBought == MAX_CARDS)
             {
                 btnStart.setEnabled(true);
@@ -168,6 +189,8 @@ public class DeckCreatorActivity extends AppCompatActivity {
 
         @Override
         public boolean onItemLongClick(AdapterView adapterView, View view, int pos, long id) {
+
+
             // Get the selected card's name
             String name = (String) ((TextView)view.findViewById(android.R.id.text1)).getText();
 
