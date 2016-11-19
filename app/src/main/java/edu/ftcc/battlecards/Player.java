@@ -10,17 +10,44 @@ import java.util.Random;
 
 public class Player {
     // Fields
+    public static final int HAND_SIZE = 3;
+
+    private Card[] hand;
     private Deck deck;
-    private int gold, resources;
+    private int gold, numInHand, resources;
 
     /**
      Constructor
      */
 
     public Player() {
+        hand = new Card[HAND_SIZE];
         deck = new Deck();
         gold = 100;
+        numInHand = 0;
         resources = 30;
+    }
+
+    /**
+        The addToHand method adds a card to the player's hand at the first available space
+        The method returns the index of the location in the hand the card was placed
+
+        @param card The card to add
+        @return The index of where the card was placed
+     */
+
+    public int addToHand(Card card) {
+        assert(numInHand != 3);
+        int index = -1;
+        boolean placedInHand = false;
+        for (int i = 0; i < HAND_SIZE && !placedInHand; i++)
+            if (hand[i] == null) {
+                hand[i] = card;
+                placedInHand = true;
+                numInHand++;
+                index = i;
+            }
+        return index;
     }
 
     /**
@@ -149,6 +176,21 @@ public class Player {
     }
 
     /**
+        The removeFromHand method removes and returns the card at the specified index
+        from the player's hand
+
+        @param index The index of the card in the player's hand to remove
+        @return card The card from the player's hand
+     */
+
+    public Card removeFromHand(int index) {
+        assert(index >= 0 && index < HAND_SIZE && numInHand != 0);
+        Card card = hand[index];
+        hand[index] = null;
+        return card;
+    }
+
+    /**
      The replenishResources method adds the specified number of
      resources to the player's current resource pool
 
@@ -167,6 +209,16 @@ public class Player {
 
     public int getGold() {
         return gold;
+    }
+
+    /**
+        NumInHand Getter
+
+        @return The number of cards in the player's hands
+     */
+
+    public int getNumInHand() {
+        return numInHand;
     }
 
     /**

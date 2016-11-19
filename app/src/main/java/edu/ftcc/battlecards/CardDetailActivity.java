@@ -52,7 +52,12 @@ public class CardDetailActivity extends AppCompatActivity {
         imgCardImage.setImageResource(card.getImageResID());
         txtName.setText(card.getName());
         txtDefense.setText(String.valueOf(card.getDefense()));
-        txtAbility.setText(card.getAbility().toString());
+
+        String ability = card.getAbility().toString().toLowerCase();
+        ability = ability.replace('_', ' ');
+        if (!ability.equals("none"))
+            txtAbility.setText(ability);
+
         txtResource.setText(String.valueOf(card.getResourceCost()));
         txtGold.setText(String.valueOf(card.getGoldCost()));
         txtAttack.setText(String.valueOf(card.getAttack()));
