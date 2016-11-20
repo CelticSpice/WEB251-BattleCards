@@ -73,7 +73,7 @@ public class Player {
                 buyable = game.getCardsAvailableToBuy(gold);
             } while (buyable.length != 0);
 
-            if (deck.getNumCards() != 15)
+            if (deck.getNumCards() != deck.getMaxSize())
             {
                 deck.clear();
                 gold = 100;
@@ -96,12 +96,35 @@ public class Player {
     /**
      The cast method simulates the player casting the card specified
      and updates the player's resources appropriately
+     The method returns the index of the cast card
 
      @param toCast The card to cast
+     @return index The index of the cast card
      */
 
-    public void cast(Card toCast) {
+    public int cast(Card toCast) {
+        int index = -1;
+        for (int i = 0; i < HAND_SIZE; i++)
+            if (hand[i] == toCast) {
+                hand[i] = null;
+                index = i;
+            }
         resources -= toCast.getResourceCost();
+        return index;
+    }
+
+    /**
+        The getActiveCard method returns the card in the player's hand that is active
+
+        @return activeCard The active card in the player's hand
+     */
+
+    public Card getActiveCard() {
+        Card activeCard = null;
+        for (Card card : hand)
+            if (card != null && card.getActive())
+                activeCard = card;
+        return activeCard;
     }
 
     /**
@@ -126,6 +149,18 @@ public class Player {
     }
 
     /**
+        The getCardInHandAt method returns the card that exists at the specified index of the
+        player's hand
+
+        @param index The index of the card in the hand to get
+        @return The card at the specified index in the hand
+     */
+
+    public Card getCardInHandAt(int index) {
+        return hand[index];
+    }
+
+    /**
      The getCardNames method returns the name of every card in the player's deck
 
      @return The name of every card in the player's deck
@@ -143,6 +178,57 @@ public class Player {
 
     public int getDeckSize() {
         return deck.getNumCards();
+    }
+
+    /**
+        The getHand method returns the player's hand of cards
+
+        @return The player's hand of cards
+     */
+
+    public Card[] getHand() {
+        return hand;
+    }
+
+    /**
+        The indexOfHandCard method returns the index of the specified card in the player's hand;
+        else, if card is not in hand, -1
+
+        @param card The card to get the index of in the player's hand
+        @return index The index of the card in the player's hand
+     */
+
+    public int indexOfHandCard(Card card) {
+        int index = -1;
+        for (int i = 0; i < HAND_SIZE; i++)
+            if (hand[i] == card)
+                index = i;
+        return index;
+    }
+
+    /**
+        The isHandCardActive method returns whether a card in the player's hand is active
+
+        @return isActive Whether a card in the player's hand is active
+     */
+
+    public boolean isHandCardActive() {
+        boolean isActive = false;
+        for (Card card : hand)
+            if (card != null && card.getActive())
+                isActive = true;
+        return isActive;
+    }
+
+    /**
+        The selectCardFromField method generates the index of a card to select from the field
+
+        @return The index of a card from the field to select
+     */
+
+    public int selectCardFromField() {
+        Random rand = new Random();
+        return rand.nextInt(2);
     }
 
     /**

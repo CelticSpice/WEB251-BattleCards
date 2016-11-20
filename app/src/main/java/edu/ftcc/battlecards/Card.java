@@ -9,6 +9,7 @@ package edu.ftcc.battlecards;
 public class Card {
     // Fields
     private Ability ability;
+    private boolean active, canAttack;
     private int attack, defense, goldCost, resourceCost;
     private Integer image;
     private String name;
@@ -28,6 +29,8 @@ public class Card {
 
     public Card(int atk, int def, Ability abil, int gCost,
                 int rCost, Integer img, String n) {
+        active = false;
+        canAttack = false;
         attack = atk;
         defense = def;
         ability = abil;
@@ -44,6 +47,8 @@ public class Card {
      */
 
     public Card(Card card) {
+        active = card.active;
+        canAttack = card.canAttack;
         attack = card.attack;
         defense = card.defense;
         ability = card.ability;
@@ -54,14 +59,33 @@ public class Card {
     }
 
     /**
-        The alterDefense method increases or decreases the card's defense
-        by an amount
+        The alterDefense method decreases the card's defense by the specified value
 
-        @param value The value to increase or decrease the card's defense by
+        @param value The value to decrease the card's defense by
      */
 
     public void alterDefense(int value) {
-        defense += value;
+        defense -= value;
+    }
+
+    /**
+        The getActive method returns whether the card is active
+
+        @return Whether the card is active
+     */
+
+    public boolean getActive() {
+        return active;
+    }
+
+    /**
+        The getCanAttack method returns whether the card can be used to attack
+
+        @return Whether the card can attack
+     */
+
+    public boolean getCanAttack() {
+        return canAttack;
     }
 
     /**
@@ -131,5 +155,25 @@ public class Card {
 
     public int getResourceCost() {
         return resourceCost;
+    }
+
+    /**
+        The setActive method sets the card's active status
+
+        @param isActive Whether the card is active
+     */
+
+    public void setActive(boolean isActive) {
+        active = isActive;
+    }
+
+    /**
+        The setCanAttack method sets whether the card can attack
+
+        @param attack Whether the can attack
+     */
+
+    public void setCanAttack(boolean attack) {
+        canAttack = attack;
     }
 }
