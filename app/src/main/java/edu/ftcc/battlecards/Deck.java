@@ -1,178 +1,190 @@
 /**
  This class represents a deck of cards
- WEB 251 0001 - Battle Cards
  @author James Alves, Timothy Burns
  */
 
 package edu.ftcc.battlecards;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 public class Deck {
     // Fields
-    private final int MAX_SIZE = 15;
+    private final int DEFAULT_MAX = 15;
 
-    private ArrayList<Card> cards;
+    private Card[] cards;
+    private int maxSize, numCards;
 
     /**
      Constructor
      */
 
     public Deck() {
-        cards = new ArrayList<>(MAX_SIZE);
+        cards = new Card[DEFAULT_MAX];
+        maxSize = DEFAULT_MAX;
+        numCards = 0;
     }
 
     /**
-        The clear method removes all cards from the deck
+     Constructor - Accepts the maximum number of cards
+     */
+
+    public Deck(int max) {
+        cards = new Card[max];
+        maxSize = max;
+        numCards = 0;
+    }
+
+    /**
+     Clear - Removes every card from the deck
      */
 
     public void clear() {
-        cards.clear();
+        while (numCards != 0)
+            cards[--numCards] = null;
     }
 
     /**
-     The getCard method returns the card with the specified name
+     GetCard - Returns the first instance of the card from the deck with the specified name
 
      @param name The name of the card to get
-     @return card The card with the specified name; else, if card with name does not exist, null
+     @return card The card with the specified name
      */
 
     public Card getCard(String name) {
         Card card = null;
-        for (Card c : cards)
-            if (c.getName().equalsIgnoreCase(name))
-                card = c;
+        boolean found = false;
+        for (int i = 0; i < numCards && !found; i++)
+            if (cards[i].getName().equalsIgnoreCase(name)) {
+                card = cards[i];
+                found = true;
+            }
         return card;
     }
 
     /**
-     The getCardAt method returns the card at the specified index
+     GetCards - Returns the cards in the deck
 
-     @param index Index of card to get
-     @return The card specified by the index
+     @return toReturn The cards in the deck
+     */
+
+    public Card[] getCards() {
+        Card[] toReturn = new Card[numCards];
+        for (int i = 0; i < numCards; i++)
+            toReturn[i] = cards[i];
+        return toReturn;
+    }
+
+    /**
+     GetCardAt - Returns the card at the specified index of the deck
+
+     @param index The index of the card to get
+     @return The card at the specified index of the deck
      */
 
     public Card getCardAt(int index) {
-        return cards.get(index);
+        return cards[index];
     }
 
     /**
-        The getMaxSize method returns the maximum number of cards the deck can contain
+     GetCardNames - Returns the name of every card in the deck,
+     alphabetically sorted
 
-        @return The maximum number of cards the deck can contain
-     */
-
-    public int getMaxSize() {
-        return MAX_SIZE;
-    }
-
-    /**
-        The indexOf method returns the index of the first occurance of the card with the
-        specified name; else, if card with name does not exist, -1
-
-        @param name The name of the card to get the first index of
-        @return index The index of the named card; else, -1
-     */
-
-    public int indexOf(String name) {
-        int index = -1;
-        for (int i = 0; i < cards.size() && index == -1; i++)
-            if (cards.get(i).getName().equalsIgnoreCase(name))
-                index = i;
-        return index;
-    }
-
-    /**
-        The getCardNames method returns the name of every card in the deck,
-        alphabetically sorted
-
-        @return names The name of every card in the deck in alphabetical order
+     @return names The name of every card in the deck in alphabetical order
      */
 
     public String[] getCardNames() {
-        String[] names = new String[cards.size()];
-        for (int i = 0; i < names.length; i++)
-            names[i] = cards.get(i).getName();
+        String[] names = new String[numCards];
+        for (int i = 0; i < numCards; i++)
+            names[i] = cards[i].getName();
         Arrays.sort(names);
         return names;
     }
 
     /**
-        The toArray method returns the deck as an array
+    GetMaxSize - Returns the maximum number of cards the deck can contain
 
-        @return The deck as an array
+    @return The maximum number of cards the deck can contain
      */
 
-    public Card[] toArray() {
-        return cards.toArray(new Card[cards.size()]);
+    public int getMaxSize() {
+        return maxSize;
     }
 
     /**
-     The getNumCards method returns the number of cards currently
+     GetNumCards - Returns the number of cards currently
      in the deck
 
      @return The number of cards currently in the deck
      */
 
     public int getNumCards() {
-        return cards.size();
+        return numCards;
     }
 
     /**
-     The pop method removes and returns the card at the top of
+     IndexOf - Returns the index of the first card in the deck with the specified name
+
+     @param name The name of the card to get the first index of
+     @return index The index of the card in the deck
+     */
+
+    public int indexOf(String name) {
+        int index = -1;
+        boolean found = false;
+        for (int i = 0; i < numCards && !found; i++)
+            if (cards[i].getName().equalsIgnoreCase(name)) {
+                found = true;
+                index = i;
+            }
+        return index;
+    }
+
+    /**
+     Pop - Removes and returns the card at the top of
      the deck
+
+     @return card The card at the top of the deck
      */
 
     public Card pop() {
-        return cards.remove(cards.size() - 1);
+        Card card = cards[numCards - 1];
+        cards[numCards--] = null;
+        return card;
     }
 
     /**
-     The push method adds a card to the top of the deck
+     Push - Adds a card to the top of the deck
 
      @param card The card to add to the top of the deck
      */
 
     public void push(Card card) {
-        cards.add(card);
+        cards[numCards++] = card;
     }
 
     /**
-     The remove method removes the specified card from the deck
+     RemoveAt - Removes the card at the specified position
+     in the deck
 
-     @param toRemove The card to remove
+     @param index The index of the card to remove
      */
 
-    public void remove(Card toRemove) {
-        cards.remove(toRemove);
+    public void removeAt(int index) {
+        for (int i = index; i < numCards - 1; i++)
+            cards[i] = cards[i + 1];
+        cards[--numCards] = null;
     }
 
     /**
-        The removeAt method removes the card at the specified position
-        in the deck
-
-        @param position The index of the card to remove
-     */
-
-    public void removeAt(int position) {
-        cards.remove(position);
-    }
-
-    /**
-     The shuffle method shuffles the cards in the deck
+     Shuffle - Shuffles the cards in the deck
      */
 
     public void shuffle() {
         Random rng = new Random();
-        Card[] shuffledCards = cards.toArray(new Card[cards.size()]);
 
         // Shuffle cards
-        for (int i = 0; i < shuffledCards.length / 2; i++) {
-            Card toShuffle, tmp;
-            int toShuffleIndex;
-
+        for (int i = 0; i < maxSize / 2; i++) {
             /*
                 We are shuffling out the first and last cards with random
                 cards chosen from somewhere in the deck. It is possible
@@ -182,22 +194,18 @@ public class Deck {
             */
 
             // Shuffling out first card in deck with random card from deck
-            toShuffleIndex = rng.nextInt(shuffledCards.length);
-            toShuffle = shuffledCards[toShuffleIndex];
-            tmp = shuffledCards[0];
-            shuffledCards[0] = toShuffle;
-            shuffledCards[toShuffleIndex] = tmp;
+            int toShuffleIndex = rng.nextInt(maxSize);
+            Card toShuffle = cards[toShuffleIndex];
+            Card tmp = cards[0];
+            cards[0] = toShuffle;
+            cards[toShuffleIndex] = tmp;
 
             // Shuffling out last card in deck with random card from deck
-            toShuffleIndex = rng.nextInt(shuffledCards.length);
-            toShuffle = shuffledCards[toShuffleIndex];
-            tmp = shuffledCards[shuffledCards.length - 1];
-            shuffledCards[shuffledCards.length - 1] = toShuffle;
-            shuffledCards[toShuffleIndex] = tmp;
+            toShuffleIndex = rng.nextInt(maxSize);
+            toShuffle = cards[toShuffleIndex];
+            tmp = cards[maxSize - 1];
+            cards[maxSize - 1] = toShuffle;
+            cards[toShuffleIndex] = tmp;
         }
-
-        // Remake the deck of cards as the new shuffled deck
-        cards.clear();
-        cards.addAll(Arrays.asList(shuffledCards));
     }
 }

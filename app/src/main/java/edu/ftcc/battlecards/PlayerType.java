@@ -1,5 +1,5 @@
 /**
-    This enumeration represents a type of player
+ This enumeration represents a type of player
  */
 
 package edu.ftcc.battlecards;

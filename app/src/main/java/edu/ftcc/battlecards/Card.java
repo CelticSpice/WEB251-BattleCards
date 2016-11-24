@@ -1,6 +1,5 @@
 /**
- This class represents a card in the game
- WEB 251 0001 - Battle Cards
+ This class represents a card
  @author James Alves, Timothy Burns
  */
 
@@ -9,7 +8,7 @@ package edu.ftcc.battlecards;
 public class Card {
     // Fields
     private Ability ability;
-    private boolean active, canAttack;
+    private boolean canAttack;
     private int attack, defense, goldCost, resourceCost;
     private Integer image;
     private String name;
@@ -29,7 +28,6 @@ public class Card {
 
     public Card(int atk, int def, Ability abil, int gCost,
                 int rCost, Integer img, String n) {
-        active = false;
         canAttack = false;
         attack = atk;
         defense = def;
@@ -47,7 +45,6 @@ public class Card {
      */
 
     public Card(Card card) {
-        active = card.active;
         canAttack = card.canAttack;
         attack = card.attack;
         defense = card.defense;
@@ -59,33 +56,23 @@ public class Card {
     }
 
     /**
-        The alterDefense method decreases the card's defense by the specified value
+     The attack method has the card attack another card
 
-        @param value The value to decrease the card's defense by
+     @param cardToAttack The card to attack
      */
 
-    public void alterDefense(int value) {
-        defense -= value;
+    public void attack(Card cardToAttack) {
+        cardToAttack.defense -= attack;
     }
 
     /**
-        The getActive method returns whether the card is active
+     The getAbility method returns the card's ability
 
-        @return Whether the card is active
+     @return The card's ability
      */
 
-    public boolean getActive() {
-        return active;
-    }
-
-    /**
-        The getCanAttack method returns whether the card can be used to attack
-
-        @return Whether the card can attack
-     */
-
-    public boolean getCanAttack() {
-        return canAttack;
+    public Ability getAbility() {
+        return ability;
     }
 
     /**
@@ -99,13 +86,13 @@ public class Card {
     }
 
     /**
-     The getAbility method returns the card's ability
+    The getCanAttack method returns whether the card can attack
 
-     @return The card's ability
+    @return Whether the card can attack
      */
 
-    public Ability getAbility() {
-        return ability;
+    public boolean getCanAttack() {
+        return canAttack;
     }
 
     /**
@@ -129,10 +116,10 @@ public class Card {
     }
 
     /**
-        The getImageResID method returns the Integer of the card's
-        resource ID of its image
+    The getImageResID method returns the Integer of the card's
+    resource ID of its image
 
-        @return Integer resource for card's image
+    @return Integer resource for card's image
      */
 
     public Integer getImageResID() { return image; }
@@ -158,19 +145,9 @@ public class Card {
     }
 
     /**
-        The setActive method sets the card's active status
+     The setCanAttack method sets whether the card can attack
 
-        @param isActive Whether the card is active
-     */
-
-    public void setActive(boolean isActive) {
-        active = isActive;
-    }
-
-    /**
-        The setCanAttack method sets whether the card can attack
-
-        @param attack Whether the can attack
+     @param attack Whether the can attack
      */
 
     public void setCanAttack(boolean attack) {

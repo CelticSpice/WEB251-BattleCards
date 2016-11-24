@@ -20,7 +20,10 @@
             android:theme="@style/AppTheme.PopUp">
         </activity>
 
-        <activity android:name=".BattlefieldActivity"></activity>
+        <activity android:name=".BattlefieldActivity"
+            android:screenOrientation="landscape">
+
+        </activity>
     </application>
 
 </manifest>

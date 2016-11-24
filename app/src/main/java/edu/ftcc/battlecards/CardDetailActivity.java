@@ -1,7 +1,5 @@
 /**
- This class enables a detailed view of a Card
- 9/23/2016
- WEB 251 0001 - Battle Cards (M5HW1)
+ This class displays a detailed view of a card
  @author James Alves, Timothy Burns
  */
 

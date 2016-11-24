@@ -1,19 +1,23 @@
 /**
-    This class represents the battlefield
+ This class represents the battlefield
+ @author James Alves, Timothy Burns
  */
 
 package edu.ftcc.battlecards;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Battlefield {
     // Fields
-    private int FIELD_SIZE = 2;
+    private final int FIELD_SIZE = 2;
 
     private Card[] humanCards;
     private Card[] computerCards;
     private int humanSelectedIndex, computerSelectedIndex;
 
     /**
-        Constructor
+     Constructor
      */
 
     public Battlefield() {
@@ -24,45 +28,99 @@ public class Battlefield {
     }
 
     /**
-        The canCardsAttack method returns whether any of the specified player's cards can attack
+     The autoSelectAttackable method automatically sets the selected index of the specified
+     player's field to card that is attackable
 
-        @param player The player to check if cards can attack for
-        @return canAttack Whether any of the specified player's cards can attack
+     @param player The player's field to select a card that is attackable from
      */
 
-    public boolean canCardsAttack(PlayerType player) {
-        boolean canAttack = false;
-        for (Card c : humanCards)
-            if (c.getCanAttack())
-                canAttack = true;
+    public void autoSelectAttackable(PlayerType player) {
+        Random rng = new Random();
+        if (player == PlayerType.HUMAN) {
+            ArrayList<Integer> indices = new ArrayList<>();
+            for (int i = 0; i < FIELD_SIZE; i++)
+                if (humanCards[i] != null)
+                    indices.add(i);
+            humanSelectedIndex = indices.get(rng.nextInt(indices.size()));
+        }
+        else {
+            ArrayList<Integer> indices = new ArrayList<>();
+            for (int i = 0; i < FIELD_SIZE; i++)
+                if (computerCards[i] != null)
+                    indices.add(i);
+            computerSelectedIndex = indices.get(rng.nextInt(indices.size()));
+        }
+    }
+
+    /**
+     The autoSelectCanAttack method automatically sets the selected index of the specified player's
+     field to a card that can attack
+
+     @param player The player's field to select a card that can attack from
+     */
+
+    public void autoSelectCanAttack(PlayerType player) {
+        Random rng = new Random();
+        if (player == PlayerType.HUMAN) {
+            ArrayList<Integer> indices = new ArrayList<>();
+            for (int i = 0; i < FIELD_SIZE; i++)
+                if (humanCards[i] != null && humanCards[i].getCanAttack())
+                    indices.add(i);
+            humanSelectedIndex = indices.get(rng.nextInt(indices.size()));
+        }
+        else {
+            ArrayList<Integer> indices = new ArrayList<>();
+            for (int i = 0; i < FIELD_SIZE; i++)
+                if (computerCards[i] != null && computerCards[i].getCanAttack())
+                    indices.add(i);
+            computerSelectedIndex = indices.get(rng.nextInt(indices.size()));
+        }
+    }
+
+    /**
+     CanCardAttack - Returns whether the card at the index of the specified player's field can
+     attack
+
+     @param index The index of the card
+     @param player The player whose field the card is in
+     @return canAttack Whether the card can attack
+     */
+
+    public boolean canCardAttack(int index, PlayerType player) {
+        boolean canAttack;
+        if (player == PlayerType.HUMAN)
+            canAttack = humanCards[index].getCanAttack();
+        else
+            canAttack = humanCards[index].getCanAttack();
         return canAttack;
     }
 
     /**
-        The getComputerCardAt method returns the card at the specified index of the computer's field
+     The canCardsAttack method returns whether any of the specified player's cards can attack
 
-        @param index The index of the computer's field
-        @return The card at the specified index
+     @param player The player to check if cards can attack for
+     @return canAttack Whether any of the specified player's cards can attack
      */
 
-    public Card getComputerCardAt(int index) {
-        return computerCards[index];
+    public boolean canCardsAttack(PlayerType player) {
+        boolean canAttack = false;
+        if (player == PlayerType.HUMAN) {
+            for (Card card : humanCards)
+                if (card.getCanAttack())
+                    canAttack = true;
+        }
+        else {
+            for (Card card : computerCards)
+                if (card.getCanAttack())
+                    canAttack = true;
+        }
+        return canAttack;
     }
 
     /**
-        The getComputerSelectedIndexMethod gets the selected index of a computer's card
+     The getFieldSize method returns the field size for both players
 
-        @return The selected index of a computer's card
-     */
-
-    public int getComputerSelectedIndex() {
-        return computerSelectedIndex;
-    }
-
-    /**
-        The getFieldSize method returns the field size for both players
-
-        @return The size of the field for each player
+     @return The size of the field for each player
      */
 
     public int getFieldSize() {
@@ -70,31 +128,58 @@ public class Battlefield {
     }
 
     /**
-        The getHumanCardAt method returns the card at the specified index of the human's field
+     The getSelectedCard method returns the card pointed to by the specified player's field
+     selected index
 
-        @param index The index of the human's field
-        @return The card at the specified index
+     @param player The player to get the selected card of its field's selected index of
+     @return card The card selected
      */
 
-    public Card getHumanCardAt(int index) {
-        return humanCards[index];
+    public Card getSelectedCard(PlayerType player) {
+        Card card;
+        if (player == PlayerType.HUMAN)
+            card = humanCards[humanSelectedIndex];
+        else
+            card = computerCards[computerSelectedIndex];
+        return card;
     }
 
     /**
-        The getHumanSelectedIndexMethod gets the selected index of a human's card
+     The getSelectedIndex method returns the selected index of the specified player's field
 
-        @return The selected index of a human's card
+     @param player The player to get the selected index of field of
+     @return The selected index of the specified player's field
      */
 
-    public int getHumanSelectedIndex() {
-        return humanSelectedIndex;
+    public int getSelectedIndex(PlayerType player) {
+        return (player == PlayerType.HUMAN) ? humanSelectedIndex : computerSelectedIndex;
     }
 
     /**
-        The isFieldEmpty method returns whether the specified player's field is empty
+     IsCardAt - Returns whether a card exists at the specified index of the specified player's
+     field
 
-        @param player The player to check if field of is empty
-        @return empty Whether the player's field is empty
+     @param index The index
+     @param player Player whose field to examine
+     @return exists Whether a card exists at the index of the specified player's field
+     */
+
+    public boolean isCardAt(int index, PlayerType player) {
+        boolean exists = false;
+        if (player == PlayerType.HUMAN)
+            if (humanCards[index] != null)
+                exists = true;
+        else
+            if (computerCards[index] != null)
+                exists = true;
+        return exists;
+    }
+
+    /**
+     The isFieldEmpty method returns whether the specified player's field is empty
+
+     @param player The player to check if field of is empty
+     @return empty Whether the player's field is empty
      */
 
     public boolean isFieldEmpty(PlayerType player) {
@@ -113,41 +198,64 @@ public class Battlefield {
     }
 
     /**
-        The placeCard method places the specified card at the specified index of the specified
-        player's field
+     The isFieldFull method returns whether the specified player's field is full
 
-        @param card Card to place
-        @param index Index of where to place the card
-        @param player The player placing the card
+     @param player The player to check if field of is full
+     @return full Whether the player's field is full
      */
 
-    public void placeCard(Card card, int index, PlayerType player) {
-        if (player == PlayerType.HUMAN)
-            humanCards[index] = card;
-        else
-            computerCards[index] = card;
+    public boolean isFieldFull(PlayerType player) {
+        boolean full = true;
+        if (player == PlayerType.HUMAN) {
+            for (Card card : humanCards)
+                if (card == null)
+                    full = false;
+        }
+        else {
+            for (Card card : computerCards)
+                if (card == null)
+                    full = false;
+        }
+        return full;
     }
 
     /**
-        The removeCard method removes the card at the specified index of the specified player's
-        field
+     PlaceCard - Places a card at the selected index of the specified player's field
 
-        @param index The index of the player's field to remove the card from
-        @param player The player's field to remove a card from
+     @param card Card to place
+     @param player The player on whose field to place the card
      */
 
-    public void removeCard(int index, PlayerType player) {
-        if (player == PlayerType.HUMAN)
-            humanCards[index] = null;
-        else
-            computerCards[index] = null;
+    public void placeCard(Card card, PlayerType player) {
+        if (player == PlayerType.HUMAN) {
+            humanCards[humanSelectedIndex] = card;
+            humanSelectedIndex = -1;
+        }
+        else {
+            computerCards[computerSelectedIndex] = card;
+            computerSelectedIndex = -1;
+        }
     }
 
     /**
-        The resetCanAttack method sets the cards on the field of the specified player to be able
-        to attack
+     The removeSelectedCard method removes the card pointed to by the selected index of the field
+     of the specified player
 
-        @param player The player whose field cards will have their attack reset
+     @param player The player, the field of which the field's selected card will be removed
+     */
+
+    public void removeSelectedCard(PlayerType player) {
+        if (player == PlayerType.HUMAN)
+            humanCards[humanSelectedIndex] = null;
+        else
+            computerCards[computerSelectedIndex] = null;
+    }
+
+    /**
+     The resetCanAttack method resets the cards on the field of the specified player to be able
+     to attack
+
+     @param player The player whose field cards will have their attack reset
      */
 
     public void resetCanAttack(PlayerType player) {
@@ -164,22 +272,16 @@ public class Battlefield {
     }
 
     /**
-        The setComputerSelectedIndex method sets the selected index of a computer's card
+     The setSelectedIndex method sets the selected index of the specified player's field
 
-        @param index The selected index to set
+     @param index The index to set
+     @param player The player's whose field's selected index will be set
      */
 
-    public void setComputerSelectedIndex(int index) {
-        computerSelectedIndex = index;
-    }
-
-    /**
-        The setHumanSelectedIndex method sets the selected index of a human's card
-
-        @param index The selected index to set
-     */
-
-    public void setHumanSelectedIndex(int index) {
-        humanSelectedIndex = index;
+    public void setSelectedIndex(int index, PlayerType player) {
+        if (player == PlayerType.HUMAN)
+            humanSelectedIndex = index;
+        else
+            computerSelectedIndex = index;
     }
 }

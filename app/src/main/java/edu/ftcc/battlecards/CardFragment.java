@@ -1,5 +1,5 @@
 /**
-    This is a fragment for a card's display
+ This is a fragment for a card's display
  */
 
 package edu.ftcc.battlecards;

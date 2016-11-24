@@ -1,9 +1,7 @@
 /**
-    Ability represents an ability that a card may have
-    WEB 251 0001
-    @author James Alves, Timothy Burns
+ This enumeration represents an ability
 */
 
 package edu.ftcc.battlecards;
 
-enum Ability { NONE, FIRST_STRIKE }
+public enum Ability { NONE, FIRST_STRIKE }

@@ -1,69 +1,57 @@
 /**
  This class represents a player in the game
- WEB 251 0001 - Battle Cards
  @author James Alves, Timothy Burns
  */
 
 package edu.ftcc.battlecards;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
     // Fields
-    public static final int HAND_SIZE = 3;
-
-    private Card[] hand;
+    private Battlefield battlefield;
+    private Hand hand;
     private Deck deck;
-    private int gold, numInHand, resources;
+    private int gold, resources;
+    private PlayerType type;
 
     /**
-     Constructor
+     Constructor - Accepts the type of player
+
+     @param playerType Whether the player is a human or a computer
      */
 
-    public Player() {
-        hand = new Card[HAND_SIZE];
+    public Player(PlayerType playerType) {
+        battlefield = null;
+        hand = new Hand();
         deck = new Deck();
         gold = 100;
-        numInHand = 0;
         resources = 30;
+        type = playerType;
     }
 
     /**
-        The addToHand method adds a card to the player's hand at the first available space
-        The method returns the index of the location in the hand the card was placed
+     AddToHand - Adds a card to the player's hand, and returns the index in hand placed
 
-        @param card The card to add
-        @return The index of where the card was placed
+     @param card The card to add
+     @return The index of where the card was placed in the player's hand
      */
 
     public int addToHand(Card card) {
-        assert(numInHand != 3);
-        int index = -1;
-        boolean placedInHand = false;
-        for (int i = 0; i < HAND_SIZE && !placedInHand; i++)
-            if (hand[i] == null) {
-                hand[i] = card;
-                placedInHand = true;
-                numInHand++;
-                index = i;
-            }
-        return index;
+        return hand.add(card);
     }
 
     /**
-        The autoBuy method automatically buys cards to add to the player's deck
+     AutoBuy - Automatically buys cards to add to the player's deck
      */
 
     public void autoBuy() {
-        // Get a reference to the game instance
+        Random rng = new Random();
         Game game = Game.getInstance();
 
-        // For random
-        Random rng = new Random();
-
         // Buy cards until max deck size is reached
-        int maxCards = deck.getMaxSize();
-        while (deck.getNumCards() != maxCards) {
+        while (deck.getNumCards() != deck.getMaxSize()) {
             Card[] buyable = game.getCardsAvailableToBuy(gold);
             do {
                 // Buy card
@@ -82,177 +70,34 @@ public class Player {
     }
 
     /**
-     The buyCard method purchases the specified card with the player's gold
-     and adds the card to the player's deck
+     BuyCard - Purchases a card with the player's gold and adds it to the player's deck
 
-     @param toBuy The card to purchase
+     @param card The card to purchase
      */
 
-    public void buyCard(Card toBuy) {
-        gold -= toBuy.getGoldCost();
-        deck.push(toBuy);
+    public void buyCard(Card card) {
+        gold -= card.getGoldCost();
+        deck.push(card);
     }
 
     /**
-     The cast method simulates the player casting the card specified
-     and updates the player's resources appropriately
-     The method returns the index of the cast card
+     Cast - Has the player cast the player's selected card from its hand onto the
+     battlefield and updates the player's resources appropriately
+     The method returns the card cast
 
-     @param toCast The card to cast
-     @return index The index of the cast card
+     @return card The card cast
      */
 
-    public int cast(Card toCast) {
-        int index = -1;
-        for (int i = 0; i < HAND_SIZE; i++)
-            if (hand[i] == toCast) {
-                hand[i] = null;
-                index = i;
-            }
-        resources -= toCast.getResourceCost();
-        return index;
+
+    public Card cast() {
+        Card card = hand.removeSelected();
+        battlefield.placeCard(card, type);
+        resources -= card.getResourceCost();
+        return card;
     }
 
     /**
-        The getActiveCard method returns the card in the player's hand that is active
-
-        @return activeCard The active card in the player's hand
-     */
-
-    public Card getActiveCard() {
-        Card activeCard = null;
-        for (Card card : hand)
-            if (card != null && card.getActive())
-                activeCard = card;
-        return activeCard;
-    }
-
-    /**
-        The getCard method returns the first instance of a
-        card in the player's deck with the specified name
-
-        @param name The name of the card to get
-     */
-
-    public Card getCard(String name) {
-        return deck.getCard(name);
-    }
-
-    /**
-        The getCards method returns the cards in the player's deck as an array
-
-        @return An array of the player's cards
-     */
-
-    public Card[] getCards() {
-        return deck.toArray();
-    }
-
-    /**
-        The getCardInHandAt method returns the card that exists at the specified index of the
-        player's hand
-
-        @param index The index of the card in the hand to get
-        @return The card at the specified index in the hand
-     */
-
-    public Card getCardInHandAt(int index) {
-        return hand[index];
-    }
-
-    /**
-     The getCardNames method returns the name of every card in the player's deck
-
-     @return The name of every card in the player's deck
-     */
-
-    public String[] getCardNames() {
-        return deck.getCardNames();
-    }
-
-    /**
-        The getDeckSize method returns the number of cards currently in the player's deck
-
-        @return The number of cards in the player's deck
-     */
-
-    public int getDeckSize() {
-        return deck.getNumCards();
-    }
-
-    /**
-        The getHand method returns the player's hand of cards
-
-        @return The player's hand of cards
-     */
-
-    public Card[] getHand() {
-        return hand;
-    }
-
-    /**
-        The indexOfHandCard method returns the index of the specified card in the player's hand;
-        else, if card is not in hand, -1
-
-        @param card The card to get the index of in the player's hand
-        @return index The index of the card in the player's hand
-     */
-
-    public int indexOfHandCard(Card card) {
-        int index = -1;
-        for (int i = 0; i < HAND_SIZE; i++)
-            if (hand[i] == card)
-                index = i;
-        return index;
-    }
-
-    /**
-        The isHandCardActive method returns whether a card in the player's hand is active
-
-        @return isActive Whether a card in the player's hand is active
-     */
-
-    public boolean isHandCardActive() {
-        boolean isActive = false;
-        for (Card card : hand)
-            if (card != null && card.getActive())
-                isActive = true;
-        return isActive;
-    }
-
-    /**
-        The selectCardFromField method generates the index of a card to select from the field
-
-        @return The index of a card from the field to select
-     */
-
-    public int selectCardFromField() {
-        Random rand = new Random();
-        return rand.nextInt(2);
-    }
-
-    /**
-     The sellCard method sells the specified card from the player's deck
-
-     @param toSell The card to sell
-     */
-
-    public void sellCard(Card toSell) {
-        gold += toSell.getGoldCost();
-        deck.remove(toSell);
-    }
-
-    /**
-        The shuffleDeck method shuffles the player's deck
-     */
-
-    public void shuffleDeck() {
-        deck.shuffle();
-    }
-
-    /**
-     The draw method removes and returns the card from the top of the
-     player's deck
+     Draw - Removes and returns the card from the top of the player's deck
 
      @return The card from the top of the player's deck
      */
@@ -262,33 +107,27 @@ public class Player {
     }
 
     /**
-        The removeFromHand method removes and returns the card at the specified index
-        from the player's hand
+     GetCards - Returns the cards contained in the player's deck
 
-        @param index The index of the card in the player's hand to remove
-        @return card The card from the player's hand
+     @return The player's cards contained in the player's deck
      */
 
-    public Card removeFromHand(int index) {
-        assert(index >= 0 && index < HAND_SIZE && numInHand != 0);
-        Card card = hand[index];
-        hand[index] = null;
-        return card;
+    public Card[] getCards() {
+        return deck.getCards();
     }
 
     /**
-     The replenishResources method adds the specified number of
-     resources to the player's current resource pool
+     GetDeckSize - Returns the number of cards in the player's deck
 
-     @param toReplenish The number of resources to replenish
+     @return The number of cards in the player's deck
      */
 
-    public void replenishResources(int toReplenish) {
-        resources += toReplenish;
+    public int getDeckSize() {
+        return deck.getNumCards();
     }
 
     /**
-     The getGold method returns the current amount of gold that the player has
+     GetGold - Returns the current amount of gold that the player has
 
      @return The current amount of gold that the player has
      */
@@ -298,22 +137,108 @@ public class Player {
     }
 
     /**
-        NumInHand Getter
+     GetHandSize - Returns the size of the player's hand
 
-        @return The number of cards in the player's hands
+     @return The size of the player's hand
      */
 
-    public int getNumInHand() {
-        return numInHand;
+    public int getHandSize() {
+        return hand.getHandSize();
     }
 
     /**
-        The getResources method returns the current amount of resources that the player has
+     GetMaxDeckSize - Returns the max size of the player's deck
 
-        @return The current amount of resources that the player has
+     @return The max number of cards that the player's deck can contain
+     */
+
+    public int getMaxDeckSize() {
+        return deck.getMaxSize();
+    }
+
+    /**
+     GetNumInHand - Returns the number of cards in the player's hand
+
+     @return The number of cards in the player's hand
+     */
+
+    public int getNumInHand() {
+        return hand.getNumInHand();
+    }
+
+    /**
+     GetResources - Returns the current amount of resources that the player has
+
+     @return The current amount of resources that the player has
      */
 
     public int getResources() {
         return resources;
+    }
+
+    /**
+     GetSelectedCardIndex - Returns the index of the player's selected hand card
+
+     @return Index of selected hand card
+     */
+
+    public int getSelectedCardIndex() {
+        return hand.getSelectedIndex();
+    }
+
+    /**
+     SelectCardInHand - Player automatically selects a card in its hand
+     */
+
+    public void selectCardInHand() {
+        Random rng = new Random();
+        int indicesIndex = 0;
+        int[] indices = new int[hand.getNumInHand()];
+
+        for (int i = 0; i < hand.getHandSize(); i++)
+            if (hand.isCardAt(i))
+                indices[indicesIndex] = i;
+
+        hand.setSelectedIndex(indices[rng.nextInt(indices.length)]);
+    }
+
+    /**
+     SelectCardInHand - Player selects the card in its hand at the specified index
+
+     @param index The index to select
+     */
+
+    public void selectCardInHand(int index) {
+        hand.setSelectedIndex(index);
+    }
+
+    /**
+     SelectBattlefieldLocation - Player selects a location on the battlefield to perform operations
+     on
+
+     @param index The index of the location on the battlefield to select
+     @param player Player's field to select
+     */
+
+    public void selectBattlefieldLocation(int index, PlayerType player) {
+        battlefield.setSelectedIndex(index, player);
+    }
+
+    /**
+     SetBattlefield - Sets the player's battlefield
+
+     @param field The battlefield to associate with the player
+     */
+
+    public void setBattlefield(Battlefield field) {
+        battlefield = field;
+    }
+
+    /**
+     ShuffleDeck - Shuffles the player's deck
+     */
+
+    public void shuffleDeck() {
+        deck.shuffle();
     }
 }

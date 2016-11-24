@@ -1,6 +1,5 @@
 /**
  This class enables the user to build his deck of cards for the game
- WEB 251 0001 - Battle Cards
  @author James Alves, Timothy Burns
  */
 
@@ -20,7 +19,6 @@ import android.widget.TextView;
 public class DeckCreatorActivity extends AppCompatActivity {
     // Fields
     private Game game;
-    private Player player;
     private Button btnStart;
     private ListView toBuyList, boughtList;
     private TextView txtGold, txtNumCardsBought;
@@ -32,7 +30,6 @@ public class DeckCreatorActivity extends AppCompatActivity {
 
         // Initialization
         game = Game.getInstance();
-        player = game.getHumanPlayer();
         btnStart = (Button) findViewById(R.id.btnStart);
         toBuyList = (ListView) findViewById(R.id.listToBuy);
         boughtList = (ListView) findViewById(R.id.listBought);
@@ -46,16 +43,16 @@ public class DeckCreatorActivity extends AppCompatActivity {
 
         // Display initial amount of gold that the player has
         txtGold = (TextView) findViewById(R.id.txtGoldAmount);
-        txtGold.setText(String.valueOf(player.getGold()));
+        txtGold.setText(String.valueOf(game.getHumanPlayer().getGold()));
     }
 
     /**
-        The setCardsBought method updates the boughtList with the names of cards that the player
-        has bought
+     The setCardsBought method updates the boughtList with the names of cards that the player
+     has bought
      */
 
     private void setCardsBought() {
-        final Card[] BOUGHT = player.getCards();
+        final Card[] BOUGHT = game.getHumanPlayer().getCards();
 
         boughtList.setAdapter(new ArrayAdapter<Card>(this, android.R.layout.simple_list_item_2,
                 android.R.id.text1, BOUGHT) {
@@ -79,7 +76,7 @@ public class DeckCreatorActivity extends AppCompatActivity {
 
     private void setCardsToBuy() {
         // Get cards available to buy
-        final Card[] AVAILABLE = game.getCardsAvailableToBuy(player.getGold());
+        final Card[] AVAILABLE = game.getCardsAvailableToBuy(game.getHumanPlayer().getGold());
 
         // Set ArrayAdapter
         toBuyList.setAdapter(new ArrayAdapter<Card>(this, android.R.layout.simple_list_item_2,
@@ -98,7 +95,7 @@ public class DeckCreatorActivity extends AppCompatActivity {
     }
 
     /**
-        The registerButtonListener method registers a listener to the button
+     The registerButtonListener method registers a listener to the button
      */
 
     private void registerButtonListener() {
@@ -109,7 +106,7 @@ public class DeckCreatorActivity extends AppCompatActivity {
                 game.getComputerPlayer().autoBuy();
 
                 // Both players' decks are shuffled
-                player.shuffleDeck();
+                game.getHumanPlayer().shuffleDeck();
                 game.getComputerPlayer().shuffleDeck();
 
                 // Start game
@@ -131,27 +128,31 @@ public class DeckCreatorActivity extends AppCompatActivity {
     }
 
     /**
-        Handler for ListView click
+     Handler for ListView click
      */
 
     private class ListItemClickListener implements ListView.OnItemClickListener {
         /**
-            onItemClick method
+         onItemClick method
          */
 
         @Override
         public void onItemClick(AdapterView adapterView, View view, int pos, long id) {
-            // Get the selected card's name
-            String name = (String) ((TextView)view.findViewById(android.R.id.text1)).getText();
+            Player player = game.getHumanPlayer();
 
             // Determine whether we are buying or selling
             if (adapterView == toBuyList) {
+                // Get the selected card's name
+                String name = (String) ((TextView)view.findViewById(android.R.id.text1)).getText();
+
+                // Player buys card
                 player.buyCard(game.getCard(name));
                 setCardsToBuy();
                 setCardsBought();
             }
             else {
-                player.sellCard(player.getCard(name));
+                // Player sells card
+                player.sellCard(pos);
                 setCardsToBuy();
                 setCardsBought();
             }
@@ -164,8 +165,7 @@ public class DeckCreatorActivity extends AppCompatActivity {
             txtGold.setText(String.valueOf(player.getGold()));
 
             // Check if max number of cards bought
-            final int MAX_CARDS = 15;
-            if (numBought == MAX_CARDS)
+            if (numBought == player.getMaxDeckSize())
             {
                 btnStart.setEnabled(true);
                 toBuyList.setEnabled(false);
@@ -179,18 +179,16 @@ public class DeckCreatorActivity extends AppCompatActivity {
     }
 
     /**
-        Handler for ListView long click
+     Handler for ListView long click
      */
 
     private class ListItemLongClickListener implements ListView.OnItemLongClickListener {
         /**
-            onItemLongClick method
+         onItemLongClick method
          */
 
         @Override
         public boolean onItemLongClick(AdapterView adapterView, View view, int pos, long id) {
-
-
             // Get the selected card's name
             String name = (String) ((TextView)view.findViewById(android.R.id.text1)).getText();
 

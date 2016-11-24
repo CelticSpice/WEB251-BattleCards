@@ -1,7 +1,7 @@
 /**
-    This enumeration represents a game phase
+ This enumeration represents a game phase
  */
 
 package edu.ftcc.battlecards;
 
-public enum Phase { Draw, Cast, Battle }
+public enum Phase { DRAW, CAST, BATTLE }
