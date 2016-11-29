@@ -41,19 +41,19 @@ public class Game {
      */
 
     public Attack doAttack(PlayerType player) {
-        Card attacker = battlefield.getSelectedCard(player);
-        int attackerI = battlefield.getSelectedIndex(player);
+        Card attacker, defender;
+        int attackerI, defenderI;
 
         if (player == PlayerType.HUMAN) {
-            if (player == PlayerType.HUMAN) {
+            attacker = battlefield.getSelectedCard(player);
+            attackerI = battlefield.getSelectedIndex(player);
+            defender = battlefield.getSelectedCard(PlayerType.COMPUTER);
+            defenderI = battlefield.getSelectedIndex(PlayerType.COMPUTER);
+        }
+        else {
 
-                defender = battlefield.getSelectedCard(PlayerType.COMPUTER);
-                defenderI = battlefield.getSelectedIndex(PlayerType.COMPUTER);
-            }
-            else {
-                defender = battlefield.getSelectedCard(PlayerType.HUMAN);
-                defenderI = battlefield.getSelectedIndex(PlayerType.HUMAN);
-            }
+        }
+
 
             // Attack begins
             if (defender.getAbility() == Ability.FIRST_STRIKE)
@@ -122,7 +122,7 @@ public class Game {
             result.setDraw(doDraw(PlayerType.COMPUTER));
 
         // Player casts
-        if (computerPlayer.getNumInHand() != 0)
+        if (computerPlayer.getNumInHand() != 0 && !battlefield.isFieldFull(PlayerType.COMPUTER))
             result.setCast(doCast(PlayerType.COMPUTER));
 
         // Player Attacks

@@ -197,7 +197,7 @@ public class Player {
 
         for (int i = 0; i < hand.getHandSize(); i++)
             if (hand.isCardAt(i))
-                indices[indicesIndex] = i;
+                indices[indicesIndex++] = i;
 
         hand.setSelectedIndex(indices[rng.nextInt(indices.length)]);
     }
@@ -210,6 +210,16 @@ public class Player {
 
     public void selectCardInHand(int index) {
         hand.setSelectedIndex(index);
+    }
+
+    /**
+     SelectCardToAttackWith - Player automatically selects a card to attack on the battlefield
+
+     @param player The player whose field to make a selection to attack from
+     */
+
+    public void selectCardToAttackWith(PlayerType player) {
+        if (opponent == PlayerType.HUMAN)
     }
 
     /**
