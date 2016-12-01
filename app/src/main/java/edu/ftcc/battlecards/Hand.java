@@ -5,6 +5,8 @@
 
 package edu.ftcc.battlecards;
 
+import java.util.Random;
+
 public class Hand {
     // Fields
     private final int HAND_SIZE = 3;
@@ -45,6 +47,20 @@ public class Hand {
         if (!placedInHand)
             cards[0] = cardToAdd;
         return index;
+    }
+
+    /**
+     AutoSelect - Automatically selects a card in the hand
+     */
+
+    public void autoSelect() {
+        Random rng = new Random();
+        int indicesIndex = 0;
+        int[] indices = new int[numInHand];
+        for (int i = 0; i < HAND_SIZE; i++)
+            if (cards[i] != null)
+                indices[indicesIndex++] = i;
+        selectedIndex = indices[rng.nextInt(indices.length)];
     }
 
     /**
@@ -104,15 +120,11 @@ public class Hand {
 
     /**
      SetSelectedIndex - Sets the index of the selected card in the hand
-     If the index is not valid, selected index defaults to -1 (nothing selected)
 
      @param index The index of the selected card
      */
 
     public void setSelectedIndex(int index) {
-        if (index >= 0 && index < HAND_SIZE)
-            selectedIndex = index;
-        else
-            selectedIndex = -1;
+        selectedIndex = index;
     }
 }

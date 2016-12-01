@@ -55,29 +55,53 @@
             android:layout_gravity="center"
             android:layout_marginTop="15dp">
 
-            <fragment
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:name="edu.ftcc.battlecards.CardFragment"
-                android:id="@+id/fragHand1"
-                tools:layout="@layout/card_fragment" />
+                android:id="@+id/fragHand1Frame"
+                android:background="@drawable/custom_background">
 
-            <fragment
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:name="edu.ftcc.battlecards.CardFragment"
-                android:id="@+id/fragHand2"
-                tools:layout="@layout/card_fragment" />
+                <fragment
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:name="edu.ftcc.battlecards.CardFragment"
+                    android:id="@+id/fragHand1"
+                    tools:layout="@layout/card_fragment" />
 
-            <fragment
+            </FrameLayout>
+
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:name="edu.ftcc.battlecards.CardFragment"
-                android:id="@+id/fragHand3"
-                tools:layout="@layout/card_fragment" />
+                android:id="@+id/fragHand2Frame"
+                android:background="@drawable/custom_background">
+
+                <fragment
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:name="edu.ftcc.battlecards.CardFragment"
+                    android:id="@+id/fragHand2"
+                    tools:layout="@layout/card_fragment" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:id="@+id/fragHand3Frame"
+                android:background="@drawable/custom_background">
+
+                <fragment
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:name="edu.ftcc.battlecards.CardFragment"
+                    android:id="@+id/fragHand3"
+                    tools:layout="@layout/card_fragment" />
+
+            </FrameLayout>
 
         </LinearLayout>
 
@@ -96,21 +120,37 @@
             android:layout_height="0dp"
             android:layout_weight="2">
 
-            <fragment
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:name="edu.ftcc.battlecards.CardFragment"
-                android:id="@+id/fragComputerField1"
-                tools:layout="@layout/card_fragment" />
+                android:id="@+id/fragComputerField1Frame"
+                android:background="@drawable/custom_background">
 
-            <fragment
+                <fragment
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:name="edu.ftcc.battlecards.CardFragment"
+                    android:id="@+id/fragComputerField1"
+                    tools:layout="@layout/card_fragment" />
+
+            </FrameLayout>
+
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:name="edu.ftcc.battlecards.CardFragment"
-                android:id="@+id/fragComputerField2"
-                tools:layout="@layout/card_fragment" />
+                android:id="@+id/fragComputerField2Frame"
+                android:background="@drawable/custom_background">
+
+                <fragment
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:name="edu.ftcc.battlecards.CardFragment"
+                    android:id="@+id/fragComputerField2"
+                    tools:layout="@layout/card_fragment" />
+
+            </FrameLayout>
 
         </LinearLayout>
 
@@ -120,21 +160,37 @@
             android:layout_height="0dp"
             android:layout_weight="2">
 
-            <fragment
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:name="edu.ftcc.battlecards.CardFragment"
-                android:id="@+id/fragHumanField1"
-                tools:layout="@layout/card_fragment" />
+                android:id="@+id/fragHumanField1Frame"
+                android:background="@drawable/custom_background">
 
-            <fragment
+                <fragment
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:name="edu.ftcc.battlecards.CardFragment"
+                    android:id="@+id/fragHumanField1"
+                    tools:layout="@layout/card_fragment" />
+
+            </FrameLayout>
+
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:name="edu.ftcc.battlecards.CardFragment"
-                android:id="@+id/fragHumanField2"
-                tools:layout="@layout/card_fragment" />
+                android:id="@+id/fragHumanField2Frame"
+                android:background="@drawable/custom_background">
+
+                <fragment
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:name="edu.ftcc.battlecards.CardFragment"
+                    android:id="@+id/fragHumanField2"
+                    tools:layout="@layout/card_fragment" />
+
+            </FrameLayout>
 
         </LinearLayout>
 

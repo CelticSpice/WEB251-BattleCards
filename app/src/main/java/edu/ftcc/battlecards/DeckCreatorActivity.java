@@ -47,12 +47,12 @@ public class DeckCreatorActivity extends AppCompatActivity {
     }
 
     /**
-     The setCardsBought method updates the boughtList with the names of cards that the player
+     SetCardsBought - Updates the boughtList with the names of cards that the player
      has bought
      */
 
     private void setCardsBought() {
-        final Card[] BOUGHT = game.getHumanPlayer().getCards();
+        final Card[] BOUGHT = game.getHumanPlayer().getCardsInDeck();
 
         boughtList.setAdapter(new ArrayAdapter<Card>(this, android.R.layout.simple_list_item_2,
                 android.R.id.text1, BOUGHT) {
@@ -76,7 +76,7 @@ public class DeckCreatorActivity extends AppCompatActivity {
 
     private void setCardsToBuy() {
         // Get cards available to buy
-        final Card[] AVAILABLE = game.getCardsAvailableToBuy(game.getHumanPlayer().getGold());
+        final Card[] AVAILABLE = game.getCardsAvailableToBuy(game.getHumanPlayer());
 
         // Set ArrayAdapter
         toBuyList.setAdapter(new ArrayAdapter<Card>(this, android.R.layout.simple_list_item_2,

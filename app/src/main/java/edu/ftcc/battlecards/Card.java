@@ -5,6 +5,8 @@
 
 package edu.ftcc.battlecards;
 
+import java.util.Random;
+
 public class Card {
     // Fields
     private Ability ability;
@@ -62,7 +64,8 @@ public class Card {
      */
 
     public void attack(Card cardToAttack) {
-        cardToAttack.defense -= attack;
+        Random rng = new Random();
+        cardToAttack.defense -= rng.nextInt(attack + 1);
     }
 
     /**

@@ -28,12 +28,12 @@ public class TurnResult {
     }
 
     /**
-     AddAttackInfo - Adds information about an attack made
+     AddAttack - Adds information about an attack made
 
      @param a The attack
      */
 
-    public void addAttackInfo(Attack a) {
+    public void addAttack(Attack a) {
         if (!didAttack)
             didAttack = true;
         attacks.add(a);

@@ -5,7 +5,6 @@
 
 package edu.ftcc.battlecards;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
@@ -52,14 +51,14 @@ public class Player {
 
         // Buy cards until max deck size is reached
         while (deck.getNumCards() != deck.getMaxSize()) {
-            Card[] buyable = game.getCardsAvailableToBuy(gold);
+            Card[] buyable = game.getCardsAvailableToBuy(this);
             do {
                 // Buy card
                 buyCard(buyable[rng.nextInt(buyable.length)]);
 
                 // Refresh set of buyable cards
-                buyable = game.getCardsAvailableToBuy(gold);
-            } while (buyable.length != 0);
+                buyable = game.getCardsAvailableToBuy(this);
+            } while (buyable.length != 0 && deck.getNumCards() != deck.getMaxSize());
 
             if (deck.getNumCards() != deck.getMaxSize())
             {
@@ -107,12 +106,12 @@ public class Player {
     }
 
     /**
-     GetCards - Returns the cards contained in the player's deck
+     GetCardsInDeck - Returns the cards contained in the player's deck
 
      @return The player's cards contained in the player's deck
      */
 
-    public Card[] getCards() {
+    public Card[] getCardsInDeck() {
         return deck.getCards();
     }
 
@@ -187,19 +186,34 @@ public class Player {
     }
 
     /**
+     GetType - Returns the player's type
+
+     @return The player's type
+     */
+
+    public PlayerType getType() {
+        return type;
+    }
+
+    /**
+     IsDefeated - Returns whether the player is defeated
+
+     @return defeated Whether the player is defeated
+     */
+
+    public boolean isDefeated() {
+        boolean defeated = false;
+        if (hand.getNumInHand() == 0 && deck.getNumCards() == 0 && battlefield.isFieldEmpty(type))
+            defeated = true;
+        return defeated;
+    }
+
+    /**
      SelectCardInHand - Player automatically selects a card in its hand
      */
 
     public void selectCardInHand() {
-        Random rng = new Random();
-        int indicesIndex = 0;
-        int[] indices = new int[hand.getNumInHand()];
-
-        for (int i = 0; i < hand.getHandSize(); i++)
-            if (hand.isCardAt(i))
-                indices[indicesIndex++] = i;
-
-        hand.setSelectedIndex(indices[rng.nextInt(indices.length)]);
+        hand.autoSelect();
     }
 
     /**
@@ -213,13 +227,28 @@ public class Player {
     }
 
     /**
-     SelectCardToAttackWith - Player automatically selects a card to attack on the battlefield
-
-     @param player The player whose field to make a selection to attack from
+     SelectCardToAttack - Player automatically selects a card to attack on the battlefield
      */
 
-    public void selectCardToAttackWith(PlayerType player) {
-        if (opponent == PlayerType.HUMAN)
+    public void selectCardToAttack() {
+        battlefield.autoSelectCardToAttack(type);
+    }
+
+    /**
+     SelectCardToAttackWith - Player automatically selects a card to attack with on the battlefield
+     */
+
+    public void selectCardToAttackWith() {
+        battlefield.autoSelectCardToAttackWith(type);
+    }
+
+    /**
+     SelectWhereToCast - Player automatically selects a location on the battlefield to cast a card
+     into
+     */
+
+    public void selectWhereToCast() {
+        battlefield.autoSelectCastLocation(type);
     }
 
     /**
@@ -232,6 +261,16 @@ public class Player {
 
     public void selectBattlefieldLocation(int index, PlayerType player) {
         battlefield.setSelectedIndex(index, player);
+    }
+
+    /**
+     SellCard - Sells a card from the player's deck at the specified position
+
+     @param index The index in the player's deck of the card to sell
+     */
+
+    public void sellCard(int index) {
+        gold += deck.removeAt(index).getGoldCost();
     }
 
     /**

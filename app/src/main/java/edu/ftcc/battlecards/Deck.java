@@ -148,8 +148,8 @@ public class Deck {
      */
 
     public Card pop() {
-        Card card = cards[numCards - 1];
-        cards[numCards--] = null;
+        Card card = cards[--numCards];
+        cards[numCards] = null;
         return card;
     }
 
@@ -164,16 +164,19 @@ public class Deck {
     }
 
     /**
-     RemoveAt - Removes the card at the specified position
+     RemoveAt - Removes and returns the card at the specified position
      in the deck
 
      @param index The index of the card to remove
+     @return card The card at the specified index
      */
 
-    public void removeAt(int index) {
+    public Card removeAt(int index) {
+        Card card = cards[index];
         for (int i = index; i < numCards - 1; i++)
             cards[i] = cards[i + 1];
         cards[--numCards] = null;
+        return card;
     }
 
     /**

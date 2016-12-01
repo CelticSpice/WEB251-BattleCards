@@ -11,7 +11,7 @@ public class Cast {
     private int handIndex, battlefieldIndex;
 
     /**
-     Constructor - Accepts the caster, the card cast, and the indices of the hand and battlefield
+     Constructor - Accepts the card cast and the indices of the hand and battlefield
      the card is cast from and to
 
      @param card Card cast

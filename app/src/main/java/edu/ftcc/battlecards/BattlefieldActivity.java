@@ -13,7 +13,8 @@ public class BattlefieldActivity extends AppCompatActivity {
     private Button btnAction;
     private Game game;
     private TextView txtHumanDeckSize, txtComputerDeckSize, txtInfo;
-    private View[] computerFieldViews, handViews, humanFieldViews;
+    private View[] computerFieldViews, handViews, humanFieldViews,
+                   computerFieldViewFrames, handViewFrames, humanFieldViewFrames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,25 +30,11 @@ public class BattlefieldActivity extends AppCompatActivity {
         txtInfo = (TextView) findViewById(R.id.txtInfo);
         btnAction = (Button) findViewById(R.id.btnAction);
 
-        computerFieldViews = new View[game.getBattlefield().getFieldSize()];
-        computerFieldViews[0] = findViewById(R.id.fragComputerField1);
-        computerFieldViews[0].setVisibility(View.INVISIBLE);
-        computerFieldViews[1] = findViewById(R.id.fragComputerField2);
-        computerFieldViews[1].setVisibility(View.INVISIBLE);
+        // Get fragments
+        getFragments();
 
-        handViews = new View[game.getHumanPlayer().getHandSize()];
-        handViews[0] = findViewById(R.id.fragHand1);
-        handViews[0].setVisibility(View.INVISIBLE);
-        handViews[1] = findViewById(R.id.fragHand2);
-        handViews[1].setVisibility(View.INVISIBLE);
-        handViews[2] = findViewById(R.id.fragHand3);
-        handViews[2].setVisibility(View.INVISIBLE);
-
-        humanFieldViews = new View[game.getBattlefield().getFieldSize()];
-        humanFieldViews[0] = findViewById(R.id.fragHumanField1);
-        humanFieldViews[0].setVisibility(View.INVISIBLE);
-        humanFieldViews[1] = findViewById(R.id.fragHumanField2);
-        humanFieldViews[1].setVisibility(View.INVISIBLE);
+        // Get fragment frames
+        getFragmentFrames();
 
         // Set initial text displayed
         txtHumanDeckSize.setText("15/15");
@@ -55,7 +42,7 @@ public class BattlefieldActivity extends AppCompatActivity {
         txtInfo.setText("Draw a Card");
         btnAction.setText("Draw");
 
-        // Register button listeners
+        // Register listeners
         registerListeners();
     }
 
@@ -84,23 +71,120 @@ public class BattlefieldActivity extends AppCompatActivity {
     }
 
     /**
-        The registerListeners method registers listeners to the controls
+     GetFragments - Gets the fragments and assigns them to the fields
+     */
+
+    private void getFragments() {
+        computerFieldViews = new View[game.getBattlefield().getFieldSize()];
+        computerFieldViews[0] = findViewById(R.id.fragComputerField1);
+        computerFieldViews[0].setVisibility(View.INVISIBLE);
+        computerFieldViews[1] = findViewById(R.id.fragComputerField2);
+        computerFieldViews[1].setVisibility(View.INVISIBLE);
+
+        handViews = new View[game.getHumanPlayer().getHandSize()];
+        handViews[0] = findViewById(R.id.fragHand1);
+        handViews[0].setVisibility(View.INVISIBLE);
+        handViews[1] = findViewById(R.id.fragHand2);
+        handViews[1].setVisibility(View.INVISIBLE);
+        handViews[2] = findViewById(R.id.fragHand3);
+        handViews[2].setVisibility(View.INVISIBLE);
+
+        humanFieldViews = new View[game.getBattlefield().getFieldSize()];
+        humanFieldViews[0] = findViewById(R.id.fragHumanField1);
+        humanFieldViews[0].setVisibility(View.INVISIBLE);
+        humanFieldViews[1] = findViewById(R.id.fragHumanField2);
+        humanFieldViews[1].setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     GetFragmentFrames - Gets the frames of the fragments and assigns them to the fields
+     */
+
+    private void getFragmentFrames() {
+        computerFieldViewFrames = new View[game.getBattlefield().getFieldSize()];
+        computerFieldViewFrames[0] = findViewById(R.id.fragComputerField1Frame);
+        computerFieldViewFrames[1] = findViewById(R.id.fragComputerField2Frame);
+
+        handViewFrames = new View[game.getHumanPlayer().getHandSize()];
+        handViewFrames[0] = findViewById(R.id.fragHand1Frame);
+        handViewFrames[1] = findViewById(R.id.fragHand2Frame);
+        handViewFrames[2] = findViewById(R.id.fragHand3Frame);
+
+        humanFieldViewFrames = new View[game.getBattlefield().getFieldSize()];
+        humanFieldViewFrames[0] = findViewById(R.id.fragHumanField1Frame);
+        humanFieldViewFrames[1] = findViewById(R.id.fragHumanField2Frame);
+    }
+
+    /**
+     GetFragmentIndex - Returns the index of the fragment that lives in the specified frame
+
+     @param frame The frame View
+     @return The index of the fragment that lives in the frame View
+     */
+
+    private int getFragmentIndex(View frame) {
+        int index = 0;
+        boolean found = false;
+
+        for (int i = 0; i < computerFieldViewFrames.length && !found; i++)
+            if (computerFieldViewFrames[i] == frame) {
+                index = i;
+                found = true;
+            }
+
+        for (int i = 0; i < handViewFrames.length && !found; i++)
+            if (handViewFrames[i] == frame) {
+                index = i;
+                found = true;
+            }
+
+        for (int i = 0; i < humanFieldViewFrames.length && !found; i++)
+            if (humanFieldViewFrames[i] == frame) {
+                index = i;
+                found = true;
+            }
+
+        return index;
+    }
+
+    /**
+        RegisterListeners - Registers listeners to the controls
      */
 
     private void registerListeners() {
-        for (View view : computerFieldViews) {
+        for (View view : computerFieldViewFrames) {
             view.setOnClickListener(new ComputerFieldClickHandler());
             view.setOnLongClickListener(new LongClickHandler());
         }
-        for (View view : handViews) {
+        for (View view : handViewFrames) {
             view.setOnClickListener(new CardHandClickHandler());
             view.setOnLongClickListener(new LongClickHandler());
         }
-        for (View view : humanFieldViews) {
+        for (View view : humanFieldViewFrames) {
             view.setOnClickListener(new HumanFieldClickHandler());
             view.setOnLongClickListener(new LongClickHandler());
         }
         btnAction.setOnClickListener(new ButtonHandler());
+    }
+
+    /**
+     RemoveListeners - Removes listeners from the controls
+     */
+
+    private void removeListeners() {
+        for (View view : computerFieldViewFrames) {
+            view.setOnClickListener(null);
+            view.setOnLongClickListener(null);
+        }
+        for (View view : handViewFrames) {
+            view.setOnClickListener(null);
+            view.setOnLongClickListener(null);
+        }
+        for (View view : humanFieldViewFrames) {
+            view.setOnClickListener(null);
+            view.setOnLongClickListener(null);
+        }
+        btnAction.setOnClickListener(null);
     }
 
     /**
@@ -112,33 +196,36 @@ public class BattlefieldActivity extends AppCompatActivity {
 
     private void onBattleComputerViewClick(View v) {
         if (game.getBattlefield().getSelectedIndex(PlayerType.HUMAN) != -1) {
-            // Get index of view
-            int index = 0;
-            for (int i = 0; i < computerFieldViews.length; i++)
-                if (computerFieldViews[i] == v)
-                    index = i;
+            // Get index of fragment
+            int index = getFragmentIndex(v);
 
-            // Player makes selection
-            game.getHumanPlayer().selectBattlefieldLocation(index, PlayerType.COMPUTER);
+            // Check that valid selection made
+            if (computerFieldViews[index].getVisibility() == View.VISIBLE) {
+                // Player makes selection
+                game.getHumanPlayer().selectBattlefieldLocation(index, PlayerType.COMPUTER);
 
-            // Player attacks
-            Attack attack = game.doAttack(PlayerType.HUMAN);
+                // Player attacks
+                Attack attack = game.doAttack(game.getHumanPlayer());
 
-            // Update display
-            Card attacker = attack.getAttacker();
-            Card defender = attack.getDefender();
+                // Update display
+                Card attacker = attack.getAttacker();
+                Card defender = attack.getDefender();
 
-            if (attacker.getDefense() > 0)
-                ((TextView) humanFieldViews[index].findViewById(R.id.txtDefense)).setText(
-                        String.valueOf(attacker.getDefense()));
-            else
-                undisplayCard(humanFieldViews[index]);
+                if (attacker.getDefense() > 0)
+                    ((TextView) humanFieldViews[attack.getAttackerIndex()].findViewById(
+                            R.id.txtDefense)).setText(String.valueOf(attacker.getDefense()));
+                else
+                    undisplayCard(humanFieldViews[attack.getAttackerIndex()]);
 
-            if (defender.getDefense() > 0)
-                ((TextView) computerFieldViews[index].findViewById(R.id.txtDefense)).setText(
-                        String.valueOf(defender.getDefense()));
-            else
-                undisplayCard(computerFieldViews[attack.getDefenderIndex()]);
+                if (defender.getDefense() > 0)
+                    ((TextView) computerFieldViews[index].findViewById(R.id.txtDefense)).setText(
+                            String.valueOf(defender.getDefense()));
+                else
+                    undisplayCard(computerFieldViews[index]);
+
+                humanFieldViews[attack.getAttackerIndex()].setBackground(getResources().
+                    getDrawable(R.drawable.custom_background));
+            }
         }
     }
 
@@ -150,23 +237,24 @@ public class BattlefieldActivity extends AppCompatActivity {
      */
 
     private void onBattleHumanViewClick(View v) {
-        // Get index of view
-        int index = 0;
-        for (int i = 0; i < humanFieldViews.length; i++)
-            if (humanFieldViews[i] == v)
-                index = i;
+        // Get index of fragment
+        int index = getFragmentIndex(v);
 
-        // Check that selected card can attack
-        if (game.getBattlefield().canCardAttack(index, PlayerType.HUMAN)) {
-            // Player selects card to attack with
-            game.getHumanPlayer().selectBattlefieldLocation(index, PlayerType.HUMAN);
+        // Check that a valid card has been selected
+        if (humanFieldViews[index].getVisibility() == View.VISIBLE) {
+            // Check that selected card can attack
+            if (game.getBattlefield().canCardAttack(index, PlayerType.HUMAN)) {
+                // Player selects card to attack with
+                game.getHumanPlayer().selectBattlefieldLocation(index, PlayerType.HUMAN);
 
-            // Update display
-            for (View view : humanFieldViews) {
-                if (view != v && view.getVisibility() == View.VISIBLE)
-                    view.setBackground(getResources().getDrawable(R.drawable.custom_background));
-                else
-                    view.setBackground(getResources().getDrawable(R.drawable.card_selected));
+                // Update display
+                for (View view : humanFieldViews) {
+                    if (view != humanFieldViews[index] && view.getVisibility() == View.VISIBLE)
+                        view.setBackground(getResources().getDrawable(
+                                R.drawable.custom_background));
+                    else
+                        view.setBackground(getResources().getDrawable(R.drawable.card_selected));
+                }
             }
         }
     }
@@ -178,29 +266,23 @@ public class BattlefieldActivity extends AppCompatActivity {
      */
 
     private void onCastClick(View v) {
-        if (!game.getIsCardCast()) {
-            // Get index of view
-            int index = 0;
-            for (int i = 0; i < humanFieldViews.length; i++)
-                if (humanFieldViews[i] == v)
-                    index = i;
+        // Get index of fragment
+        int index = getFragmentIndex(v);
 
-            // Check that valid conditions exist
-            Player player = game.getHumanPlayer();
-            if (player.getSelectedCardIndex() != -1) {
-                // Player selects battlefield index
-                player.selectBattlefieldLocation(index, PlayerType.HUMAN);
+        // Check that valid conditions exist
+        Player player = game.getHumanPlayer();
+        if (player.getSelectedCardIndex() != -1) {
+            // Player selects battlefield index
+            player.selectBattlefieldLocation(index, PlayerType.HUMAN);
 
-                // Cast
-                Cast cast = game.doCast(PlayerType.HUMAN);
+            // Cast
+            Cast cast = game.doCast(player);
 
-                // Update display
-                undisplayCard(handViews[cast.getHandIndex()]);
-                displayCard(cast.getCardCast(), humanFieldViews[cast.getBattlefieldIndex()]);
+            // Update display
+            undisplayCard(handViews[cast.getHandIndex()]);
+            displayCard(cast.getCardCast(), humanFieldViews[index]);
 
-                // Set card as cast
-                game.setIsCardCast(true);
-            }
+            toBattlePhase();
         }
     }
 
@@ -209,8 +291,7 @@ public class BattlefieldActivity extends AppCompatActivity {
      */
 
     private void toBattlePhase() {
-        game.setPhase(Phase.BATTLE);
-        txtInfo.setText("Attack with your cards");
+        txtInfo.setText("Attack with your cards, or end turn");
         btnAction.setText("End Turn");
     }
 
@@ -219,9 +300,52 @@ public class BattlefieldActivity extends AppCompatActivity {
      */
 
     private void toCastPhase() {
-        game.setPhase(Phase.CAST);
         txtInfo.setText("Cast a card, or proceed to battle phase");
         btnAction.setText("Battle");
+    }
+
+    /**
+     ToComputerTurn - Proceeds to the computer's turn
+     */
+
+    private void toComputerTurn() {
+        TurnResult res = game.doComputerTurn();
+
+        // Update views
+        if (res.getDidDraw())
+            txtComputerDeckSize.setText(game.getComputerPlayer().getDeckSize() + "/15");
+
+        if (res.getDidCast()) {
+            Cast cast = res.getCast();
+            displayCard(cast.getCardCast(), computerFieldViews[cast.getBattlefieldIndex()]);
+        }
+
+        if (res.getDidAttack()) {
+            for (Attack attack : res.getAttacks()) {
+                if (attack.getAttacker().getDefense() > 0)
+                    ((TextView)computerFieldViews[attack.getAttackerIndex()].findViewById(
+                            R.id.txtDefense)).setText(String.valueOf(
+                            attack.getAttacker().getDefense()));
+                else
+                    undisplayCard(computerFieldViews[attack.getAttackerIndex()]);
+
+                if (attack.getDefender().getDefense() > 0)
+                    ((TextView)humanFieldViews[attack.getDefenderIndex()].findViewById(
+                            R.id.txtDefense)).setText(String.valueOf(
+                                attack.getDefender().getDefense()));
+                else
+                    undisplayCard(humanFieldViews[attack.getDefenderIndex()]);
+            }
+        }
+    }
+
+    /**
+     ToDrawPhase - Proceeds to the draw phase
+     */
+
+    private void toDrawPhase() {
+        txtInfo.setText("Draw a card");
+        btnAction.setText("Draw");
     }
 
     /**
@@ -248,7 +372,9 @@ public class BattlefieldActivity extends AppCompatActivity {
 
     private class ButtonHandler implements Button.OnClickListener {
         /**
-         onClick method
+         OnClick method
+
+         @param v The View
          */
 
         @Override
@@ -257,16 +383,51 @@ public class BattlefieldActivity extends AppCompatActivity {
             String action = ((Button)v).getText().toString();
             switch (action) {
                 case "Draw":
-                    Draw draw = game.doDraw(PlayerType.HUMAN);
-                    if (draw.getDrawSuccessful())
-                        displayCard(draw.getCardDrawn(), handViews[draw.getIndex()]);
-                    txtHumanDeckSize.setText(game.getHumanPlayer().getDeckSize() + "/15");
+                    Player player = game.getHumanPlayer();
+                    Draw draw = game.doDraw(player);
+                    displayCard(draw.getCardDrawn(), handViews[draw.getIndex()]);
+                    txtHumanDeckSize.setText(player.getDeckSize() + "/15");
                     toCastPhase();
                     break;
                 case "Battle":
                     toBattlePhase();
+                    game.getHumanPlayer().selectCardInHand(-1);
+                    for (View view : humanFieldViews)
+                        view.setBackground(getBaseContext().getResources().getDrawable(
+                                R.drawable.custom_background));
+                    game.setPhase(Phase.BATTLE);
                     break;
                 case "End Turn":
+                    // Check if game is over
+                    if (game.getIsGameOver()) {
+                        txtInfo.setText("Game is over!");
+                        btnAction.setText(null);
+                        removeListeners();
+                    }
+                    else
+                        toComputerTurn();
+
+                    // Check if game is over
+                    if (game.getIsGameOver()) {
+                        txtInfo.setText("Game is over!");
+                        btnAction.setText(null);
+                        removeListeners();
+                    }
+                    else {
+                        // Check if human can draw
+                        if (game.getHumanPlayer().getDeckSize() != 0)
+                            toDrawPhase();
+                        // Check if human can cast
+                        else if (game.getHumanPlayer().getNumInHand() != 0) {
+                            game.setPhase(Phase.CAST);
+                            toCastPhase();
+                        }
+                        // To battle
+                        else {
+                            game.setPhase(Phase.BATTLE);
+                            toBattlePhase();
+                        }
+                    }
                     break;
             }
         }
@@ -285,7 +446,7 @@ public class BattlefieldActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            if (game.getPhase() == Phase.BATTLE && v.getVisibility() == View.VISIBLE) {
+            if (game.getPhase() == Phase.BATTLE) {
                 onBattleComputerViewClick(v);
             }
         }
@@ -299,15 +460,17 @@ public class BattlefieldActivity extends AppCompatActivity {
         /**
          OnClick method
 
-         @param v The view
+         @param v The View
          */
 
         @Override
         public void onClick(View v) {
-            if (game.getPhase() != Phase.DRAW && v.getVisibility() == View.VISIBLE) {
+            if (game.getPhase() != Phase.DRAW) {
+                //
                 if (game.getPhase() == Phase.CAST)
                     onCastClick(v);
-                else
+
+                if (game.getPhase() == Phase.BATTLE)
                     onBattleHumanViewClick(v);
             }
         }
@@ -324,24 +487,24 @@ public class BattlefieldActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            if (game.getPhase() == Phase.CAST && v.getVisibility() == View.VISIBLE) {
-                // Get index of clicked view
-                int index = 0;
-                for (int i = 0; i < handViews.length; i++)
-                    if (handViews[i] == v)
-                        index = i;
+            if (game.getPhase() == Phase.CAST) {
+                // Get index of fragment
+                int index = getFragmentIndex(v);
 
-                // Player selects card
-                game.getHumanPlayer().selectCardInHand(index);
+                // Check that fragment is selectable
+                if (handViews[index].getVisibility() == View.VISIBLE) {
+                    // Player selects card
+                    game.getHumanPlayer().selectCardInHand(index);
 
-                // Set backgrounds
-                for (View view : handViews) {
-                    if (view != v && view.getVisibility() == View.VISIBLE)
-                        v.setBackground(getBaseContext().getResources().getDrawable(
-                                R.drawable.custom_background));
-                    else
-                        v.setBackground(getBaseContext().getResources().getDrawable(
-                                R.drawable.card_selected));
+                    // Set backgrounds
+                    for (View view : handViews) {
+                        if (view != handViews[index] && view.getVisibility() == View.VISIBLE)
+                            handViews[index].setBackground(getBaseContext().getResources().
+                                    getDrawable(R.drawable.custom_background));
+                        else
+                            handViews[index].setBackground(getBaseContext().getResources().
+                                    getDrawable(R.drawable.card_selected));
+                    }
                 }
             }
         }

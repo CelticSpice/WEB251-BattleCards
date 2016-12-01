@@ -11,7 +11,7 @@ public class Game {
     private static Game game;
 
     private Battlefield battlefield;
-    private boolean isCardCast;
+    private boolean isGameOver;
     private Deck masterDeck;
     private Phase phase;
     private Player humanPlayer, computerPlayer;
@@ -22,7 +22,6 @@ public class Game {
 
     private Game() {
         battlefield = new Battlefield();
-        isCardCast = false;
         prepareMasterDeck();
         phase = Phase.DRAW;
         humanPlayer = new Player(PlayerType.HUMAN);
@@ -40,36 +39,54 @@ public class Game {
      @return The attack
      */
 
-    public Attack doAttack(PlayerType player) {
+    public Attack doAttack(Player player) {
         Card attacker, defender;
         int attackerI, defenderI;
 
-        if (player == PlayerType.HUMAN) {
-            attacker = battlefield.getSelectedCard(player);
-            attackerI = battlefield.getSelectedIndex(player);
+        if (player == humanPlayer) {
+            attacker = battlefield.getSelectedCard(player.getType());
+            attackerI = battlefield.getSelectedIndex(player.getType());
             defender = battlefield.getSelectedCard(PlayerType.COMPUTER);
             defenderI = battlefield.getSelectedIndex(PlayerType.COMPUTER);
         }
         else {
+            // Player selects card to attack with and to attack
+            computerPlayer.selectCardToAttackWith();
+            computerPlayer.selectCardToAttack();
 
+            attacker = battlefield.getSelectedCard(player.getType());
+            attackerI = battlefield.getSelectedIndex(player.getType());
+            defender = battlefield.getSelectedCard(PlayerType.HUMAN);
+            defenderI = battlefield.getSelectedIndex(PlayerType.HUMAN);
         }
 
+        // Attack begins
+        if (defender.getAbility() == Ability.FIRST_STRIKE)
+            // Defender strikes back
+            defender.attack(attacker);
 
-            // Attack begins
-            if (defender.getAbility() == Ability.FIRST_STRIKE)
-                // Defender strikes back
-                defender.attack(attacker);
+        // Attacker strikes
+        if (attacker.getDefense() > 0)
+            attacker.attack(defender);
+        else
+            // Attacker is defeated
+            battlefield.removeSelectedCard(player.getType());
 
-            if (attacker.getDefense() > 0)
-                attacker.attack(defender);
-
-            // Attacker can no longer attack
-            attacker.setCanAttack(false);
-
-            // Reset battlefield selections
-            battlefield.setSelectedIndex(-1, PlayerType.HUMAN);
-            battlefield.setSelectedIndex(-1, PlayerType.COMPUTER);
+        // Check if defender is defeated
+        if (defender.getDefense() <= 0) {
+            // Defender is defeated
+            if (player == humanPlayer)
+                battlefield.removeSelectedCard(PlayerType.COMPUTER);
+            else
+                battlefield.removeSelectedCard(PlayerType.HUMAN);
         }
+
+        // Attacker can no longer attack
+        attacker.setCanAttack(false);
+
+        // Reset battlefield selections
+        battlefield.setSelectedIndex(-1, PlayerType.HUMAN);
+        battlefield.setSelectedIndex(-1, PlayerType.COMPUTER);
 
         return new Attack(attacker, defender, attackerI, defenderI);
     }
@@ -83,26 +100,25 @@ public class Game {
      @return cast The cast
      */
 
-    public Cast doCast(PlayerType player) {
+    public Cast doCast(Player player) {
         Card cast;
         int handI, fieldI;
 
-        if (player == PlayerType.HUMAN) {
+        if (player == humanPlayer) {
             handI = humanPlayer.getSelectedCardIndex();
-            fieldI = battlefield.getSelectedIndex(player);
+            fieldI = battlefield.getSelectedIndex(player.getType());
             cast = humanPlayer.cast();
         }
         else {
             computerPlayer.selectCardInHand();
-            if (battlefield.isCardAt(0, PlayerType.COMPUTER))
-                computerPlayer.selectBattlefieldLocation(0, PlayerType.COMPUTER);
-            else
-                computerPlayer.selectBattlefieldLocation(1, PlayerType.COMPUTER);
+            computerPlayer.selectWhereToCast();
 
-            handI = humanPlayer.getSelectedCardIndex();
-            fieldI = battlefield.getSelectedIndex(player);
-            cast = humanPlayer.cast();
+            handI = computerPlayer.getSelectedCardIndex();
+            fieldI = battlefield.getSelectedIndex(player.getType());
+            cast = computerPlayer.cast();
         }
+
+        phase = Phase.BATTLE;
 
         return new Cast(cast, handI, fieldI);
     }
@@ -119,17 +135,22 @@ public class Game {
 
         // Player draws
         if (computerPlayer.getDeckSize() != 0)
-            result.setDraw(doDraw(PlayerType.COMPUTER));
+            result.setDraw(doDraw(computerPlayer));
 
         // Player casts
         if (computerPlayer.getNumInHand() != 0 && !battlefield.isFieldFull(PlayerType.COMPUTER))
-            result.setCast(doCast(PlayerType.COMPUTER));
+            result.setCast(doCast(computerPlayer));
 
         // Player Attacks
         while (battlefield.canCardsAttack(PlayerType.COMPUTER) &&
               !battlefield.isFieldEmpty(PlayerType.HUMAN)) {
 
+            result.addAttack(doAttack(computerPlayer));
         }
+
+        endTurn();
+
+        return result;
     }
 
     /**
@@ -141,27 +162,22 @@ public class Game {
      @return draw The draw
      */
 
-    public Draw doDraw(PlayerType player) {
-        boolean success = false;
+    public Draw doDraw(Player player) {
         Card drawn = null;
         int index = -1;
 
-        if (player == PlayerType.HUMAN) {
-            if (humanPlayer.getDeckSize() != 0) {
-                success = true;
-                drawn = humanPlayer.draw();
-                index = humanPlayer.addToHand(drawn);
-            }
+        if (player == humanPlayer) {
+            drawn = humanPlayer.draw();
+            index = humanPlayer.addToHand(drawn);
         }
         else {
-            if (computerPlayer.getDeckSize() != 0) {
-                success = true;
-                drawn = computerPlayer.draw();
-                index = computerPlayer.addToHand(drawn);
-            }
+            drawn = computerPlayer.draw();
+            index = computerPlayer.addToHand(drawn);
         }
 
-        return new Draw(success, drawn, index);
+        phase = Phase.CAST;
+
+        return new Draw(drawn, index);
     }
 
     /**
@@ -198,15 +214,16 @@ public class Game {
     }
 
     /**
-     The getCardsAvailableToBuy method returns an array containing cards that are
-     available to buy based off of the specified amount of gold
+     GetCardsAvailableToBuy - Returns an array containing cards that the specified player can
+     buy
 
-     @param gold The amount of gold to base population of cards available to buy off of
+     @param player The player to get cards available to buy for
      @return An array of cards available to buy
      */
 
-    public Card[] getCardsAvailableToBuy(int gold) {
+    public Card[] getCardsAvailableToBuy(Player player) {
         ArrayList<Card> available = new ArrayList<>();
+        int gold = player.getGold();
         for (Card card : masterDeck.getCards())
             if (card.getGoldCost() <= gold)
                 available.add(new Card(card));
@@ -234,7 +251,7 @@ public class Game {
     }
 
     /**
-     The getInstance method returns an instance of the game
+     GetInstance - Returns an instance of the game
 
      @return An instance of game
      */
@@ -246,13 +263,13 @@ public class Game {
     }
 
     /**
-     The getIsCardCast method returns whether a card has been cast
+     GetIsGameOver - Returns whether the game is over
 
-     @return Whether a card has been cast
+     @return Whether the game is over
      */
 
-    public boolean getIsCardCast() {
-        return isCardCast;
+    public boolean getIsGameOver() {
+        return isGameOver;
     }
 
     /**
@@ -278,6 +295,23 @@ public class Game {
     }
 
     /**
+     EndTurn - Ends the current turn
+     */
+
+    public void endTurn() {
+        // Check if game is over
+        if (humanPlayer.isDefeated() || computerPlayer.isDefeated())
+            isGameOver = true;
+        else {
+            // Reset can attack status of cards on battlefield
+            battlefield.resetCanAttack();
+
+            // To draw phase
+            phase = Phase.DRAW;
+        }
+    }
+
+    /**
      The prepareMasterDeck method prepares the cards in the master deck
      */
 
@@ -291,26 +325,6 @@ public class Game {
         masterDeck.push(new Card(3, 3, Ability.NONE, 2, 3, R.drawable.kobold, "Kobold"));
         masterDeck.push(new Card(25, 25, Ability.FIRST_STRIKE, 15, 15, R.drawable.dragon,
                                   "Dragon"));
-    }
-
-    /**
-        The startBattlePhase method handles the logic of starting the battle phase
-     */
-
-    private void startBattlePhase() {
-        phase = Phase.BATTLE;
-        battlefield.setSelectedIndex(-1, PlayerType.HUMAN);
-        battlefield.setSelectedIndex(-1, PlayerType.COMPUTER);
-    }
-
-    /**
-     SetIsCardCast - Sets whether a card has been cast
-
-     @param cast Whether a card has been cast
-     */
-
-    public void setIsCardCast(boolean cast) {
-        isCardCast = cast;
     }
 
     /**

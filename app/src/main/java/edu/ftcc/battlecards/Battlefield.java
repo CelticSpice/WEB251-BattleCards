@@ -28,38 +28,38 @@ public class Battlefield {
     }
 
     /**
-     The autoSelectAttackable method automatically sets the selected index of the specified
-     player's field to card that is attackable
+     AutoSelectCardToAttack - Automatically sets the selected index of the specified
+     player's field to a card that can be attacked
 
-     @param player The player's field to select a card that is attackable from
+     @param player The player type whose field to select a card to attack from
      */
 
-    public void autoSelectAttackable(PlayerType player) {
+    public void autoSelectCardToAttack(PlayerType player) {
         Random rng = new Random();
         if (player == PlayerType.HUMAN) {
-            ArrayList<Integer> indices = new ArrayList<>();
-            for (int i = 0; i < FIELD_SIZE; i++)
-                if (humanCards[i] != null)
-                    indices.add(i);
-            humanSelectedIndex = indices.get(rng.nextInt(indices.size()));
-        }
-        else {
             ArrayList<Integer> indices = new ArrayList<>();
             for (int i = 0; i < FIELD_SIZE; i++)
                 if (computerCards[i] != null)
                     indices.add(i);
             computerSelectedIndex = indices.get(rng.nextInt(indices.size()));
         }
+        else {
+            ArrayList<Integer> indices = new ArrayList<>();
+            for (int i = 0; i < FIELD_SIZE; i++)
+                if (humanCards[i] != null)
+                    indices.add(i);
+            humanSelectedIndex = indices.get(rng.nextInt(indices.size()));
+        }
     }
 
     /**
-     The autoSelectCanAttack method automatically sets the selected index of the specified player's
+     AutoSelectCardToAttackWith - Automatically sets the selected index of the specified player's
      field to a card that can attack
 
-     @param player The player's field to select a card that can attack from
+     @param player The player type whose field to select a card to attack with from
      */
 
-    public void autoSelectCanAttack(PlayerType player) {
+    public void autoSelectCardToAttackWith(PlayerType player) {
         Random rng = new Random();
         if (player == PlayerType.HUMAN) {
             ArrayList<Integer> indices = new ArrayList<>();
@@ -78,6 +78,30 @@ public class Battlefield {
     }
 
     /**
+     AutoSelectCastLocation - Automatically sets the selected index of the specified player's field
+     to a location to cast a card into
+
+     @param player Player type whose field to select a location to cast a card into
+     */
+
+    public void autoSelectCastLocation(PlayerType player) {
+        if (player == PlayerType.HUMAN) {
+            int index = -1;
+            for (int i = 0; i < humanCards.length; i++)
+                if (humanCards[i] == null && index != 0)
+                    index = i;
+            humanSelectedIndex = index;
+        }
+        else {
+            int index = -1;
+            for (int i = 0; i < computerCards.length; i++)
+                if (computerCards[i] == null && index != 0)
+                    index = i;
+            computerSelectedIndex = index;
+        }
+    }
+
+    /**
      CanCardAttack - Returns whether the card at the index of the specified player's field can
      attack
 
@@ -91,7 +115,7 @@ public class Battlefield {
         if (player == PlayerType.HUMAN)
             canAttack = humanCards[index].getCanAttack();
         else
-            canAttack = humanCards[index].getCanAttack();
+            canAttack = computerCards[index].getCanAttack();
         return canAttack;
     }
 
@@ -106,12 +130,12 @@ public class Battlefield {
         boolean canAttack = false;
         if (player == PlayerType.HUMAN) {
             for (Card card : humanCards)
-                if (card.getCanAttack())
+                if (card != null && card.getCanAttack())
                     canAttack = true;
         }
         else {
             for (Card card : computerCards)
-                if (card.getCanAttack())
+                if (card != null && card.getCanAttack())
                     canAttack = true;
         }
         return canAttack;
@@ -252,23 +276,16 @@ public class Battlefield {
     }
 
     /**
-     The resetCanAttack method resets the cards on the field of the specified player to be able
-     to attack
-
-     @param player The player whose field cards will have their attack reset
+     The resetCanAttack method sets all of the cards can attack status to true
      */
 
-    public void resetCanAttack(PlayerType player) {
-        if (player == PlayerType.HUMAN) {
-            for (Card card : humanCards)
-                if (card != null)
-                    card.setCanAttack(true);
-        }
-        else {
-            for (Card card : computerCards)
-                if (card != null)
-                    card.setCanAttack(true);
-        }
+    public void resetCanAttack() {
+        for (Card card : humanCards)
+            if (card != null)
+                card.setCanAttack(true);
+        for (Card card : computerCards)
+            if (card != null)
+                card.setCanAttack(true);
     }
 
     /**
