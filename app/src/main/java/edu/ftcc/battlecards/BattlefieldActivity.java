@@ -392,12 +392,17 @@ public class BattlefieldActivity extends AppCompatActivity {
                 case "Battle":
                     toBattlePhase();
                     game.getHumanPlayer().selectCardInHand(-1);
-                    for (View view : humanFieldViews)
+                    for (View view : handViews)
                         view.setBackground(getBaseContext().getResources().getDrawable(
                                 R.drawable.custom_background));
                     game.setPhase(Phase.BATTLE);
                     break;
                 case "End Turn":
+                    // Update view
+                    for (View view : humanFieldViews)
+                        view.setBackground(getBaseContext().getResources().getDrawable(
+                                R.drawable.custom_background));
+
                     // Check if game is over
                     if (game.getIsGameOver()) {
                         txtInfo.setText("Game is over!");
@@ -499,10 +504,10 @@ public class BattlefieldActivity extends AppCompatActivity {
                     // Set backgrounds
                     for (View view : handViews) {
                         if (view != handViews[index] && view.getVisibility() == View.VISIBLE)
-                            handViews[index].setBackground(getBaseContext().getResources().
+                            view.setBackground(getBaseContext().getResources().
                                     getDrawable(R.drawable.custom_background));
                         else
-                            handViews[index].setBackground(getBaseContext().getResources().
+                            view.setBackground(getBaseContext().getResources().
                                     getDrawable(R.drawable.card_selected));
                     }
                 }
