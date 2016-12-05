@@ -4,4 +4,4 @@
 
 package edu.ftcc.battlecards;
 
-public enum Ability { NONE, FIRST_STRIKE }
+public enum Ability { NONE, FIRST_STRIKE, PSYCHIC_STIKE }

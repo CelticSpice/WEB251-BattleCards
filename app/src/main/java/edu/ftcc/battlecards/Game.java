@@ -61,7 +61,7 @@ public class Game {
         }
 
         // Attack begins
-        if (defender.getAbility() == Ability.FIRST_STRIKE)
+        if ((defender.getAbility() == Ability.FIRST_STRIKE) && (attacker.getAbility() != Ability.FIRST_STRIKE))
             // Defender strikes back
             defender.attack(attacker);
 
@@ -108,6 +108,10 @@ public class Game {
             handI = humanPlayer.getSelectedCardIndex();
             fieldI = battlefield.getSelectedIndex(player.getType());
             cast = humanPlayer.cast();
+
+            if ((cast.getAbility() == Ability.PSYCHIC_STRIKE) && (computerPlayer.getDeckSize() > 0) {
+                computerPlayer.draw();
+            }
         }
         else {
             computerPlayer.selectCardInHand();
@@ -116,6 +120,10 @@ public class Game {
             handI = computerPlayer.getSelectedCardIndex();
             fieldI = battlefield.getSelectedIndex(player.getType());
             cast = computerPlayer.cast();
+
+            if ((cast.getAbility() == Ability.PSYCHIC_STRIKE) && (humanPlayer.getDeckSize() > 0)) {
+                humanPlayer.draw();
+            }
         }
 
         phase = Phase.BATTLE;
@@ -319,11 +327,11 @@ public class Game {
         masterDeck = new Deck();
 
         // Create the game's cards
-        masterDeck.push(new Card(3, 5, Ability.NONE, 3, 5, R.drawable.goblin, "Goblin"));
-        masterDeck.push(new Card(7, 3, Ability.FIRST_STRIKE, 5, 4, R.drawable.orc, "Orc"));
-        masterDeck.push(new Card(2, 3, Ability.NONE, 3, 3, R.drawable.undead, "Undead"));
-        masterDeck.push(new Card(3, 3, Ability.NONE, 2, 3, R.drawable.kobold, "Kobold"));
-        masterDeck.push(new Card(25, 25, Ability.FIRST_STRIKE, 15, 15, R.drawable.dragon,
+        masterDeck.push(new Card(3, 4, Ability.NONE, 5, 0, R.drawable.goblin, "Goblin"));
+        masterDeck.push(new Card(5, 3, Ability.FIRST_STRIKE, 10, 0, R.drawable.orc, "Orc"));
+        masterDeck.push(new Card(3, 9, Ability.PSYCHIC_STRIKE, 15, 0, R.drawable.undead, "Undead"));
+        masterDeck.push(new Card(2, 2, Ability.NONE, 0, 0, R.drawable.kobold, "Kobold"));
+        masterDeck.push(new Card(8, 8, Ability.FIRST_STRIKE, 20, 0, R.drawable.dragon,
                                   "Dragon"));
     }
 
