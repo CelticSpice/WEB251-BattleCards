@@ -109,7 +109,7 @@ public class Game {
             fieldI = battlefield.getSelectedIndex(player.getType());
             cast = humanPlayer.cast();
 
-            if ((cast.getAbility() == Ability.PSYCHIC_STRIKE) && (computerPlayer.getDeckSize() > 0) {
+            if ((cast.getAbility() == Ability.PSYCHIC_STRIKE) && (computerPlayer.getDeckSize() > 0)) {
                 computerPlayer.draw();
             }
         }
