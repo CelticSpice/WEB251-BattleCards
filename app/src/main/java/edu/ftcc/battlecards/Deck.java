@@ -1,5 +1,7 @@
 /**
  This class represents a deck of cards
+ 12/8/2016
+ WEB 251 0001 - M5PROJ
  @author James Alves, Timothy Burns
  */
 
@@ -22,16 +24,6 @@ public class Deck {
     public Deck() {
         cards = new Card[DEFAULT_MAX];
         maxSize = DEFAULT_MAX;
-        numCards = 0;
-    }
-
-    /**
-     Constructor - Accepts the maximum number of cards
-     */
-
-    public Deck(int max) {
-        cards = new Card[max];
-        maxSize = max;
         numCards = 0;
     }
 
@@ -84,21 +76,6 @@ public class Deck {
 
     public Card getCardAt(int index) {
         return cards[index];
-    }
-
-    /**
-     GetCardNames - Returns the name of every card in the deck,
-     alphabetically sorted
-
-     @return names The name of every card in the deck in alphabetical order
-     */
-
-    public String[] getCardNames() {
-        String[] names = new String[numCards];
-        for (int i = 0; i < numCards; i++)
-            names[i] = cards[i].getName();
-        Arrays.sort(names);
-        return names;
     }
 
     /**

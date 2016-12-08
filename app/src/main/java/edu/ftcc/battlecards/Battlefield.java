@@ -1,5 +1,7 @@
 /**
  This class represents the battlefield
+ 12/8/2016
+ WEB 251 0001 - M5PROJ
  @author James Alves, Timothy Burns
  */
 
@@ -177,26 +179,6 @@ public class Battlefield {
 
     public int getSelectedIndex(PlayerType player) {
         return (player == PlayerType.HUMAN) ? humanSelectedIndex : computerSelectedIndex;
-    }
-
-    /**
-     IsCardAt - Returns whether a card exists at the specified index of the specified player's
-     field
-
-     @param index The index
-     @param player Player whose field to examine
-     @return exists Whether a card exists at the index of the specified player's field
-     */
-
-    public boolean isCardAt(int index, PlayerType player) {
-        boolean exists = false;
-        if (player == PlayerType.HUMAN)
-            if (humanCards[index] != null)
-                exists = true;
-        else
-            if (computerCards[index] != null)
-                exists = true;
-        return exists;
     }
 
     /**

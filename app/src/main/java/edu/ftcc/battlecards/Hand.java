@@ -1,5 +1,7 @@
 /**
  A player's hand of cards
+ 12/8/2016
+ WEB 251 0001 - M5PROJ
  @author James Alves, Timothy Burns
  */
 
@@ -81,17 +83,6 @@ public class Hand {
 
     public int getNumInHand() {
         return numInHand;
-    }
-
-    /**
-     IsCardAt - Returns whether a card exists at a specified index
-
-     @param index The index to check if a card exists in
-     @return Whether a card exists at the index
-     */
-
-    public boolean isCardAt(int index) {
-        return index >= 0 && index < HAND_SIZE && cards[index] != null;
     }
 
     /**
